@@ -992,3 +992,52 @@ p {
         margin-right: auto !important;
     }
 }
+
+/* ---------- Login: circular "account" chip, consistent with the pill nav ---------- */
+#adminLoginBtn {
+    width: 40px;
+    height: 40px;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    font-size: 19px !important;
+    border-radius: 50% !important;
+    background: rgba(255, 255, 255, .08);
+    border: 1px solid rgba(255, 255, 255, .18) !important;
+    color: #fff !important;
+    margin-left: 8px;
+    padding: 0 !important;
+    transition: background .3s ease, color .3s ease, transform .3s ease;
+}
+
+#adminLoginBtn:hover {
+    background: rgba(233, 30, 99, .30);
+    color: #fff !important;
+    transform: translateY(-1px);
+}
+
+@media (max-width: 575.98px) {
+    #adminLoginBtn {
+        width: 34px;
+        height: 34px;
+        font-size: 16px !important;
+        margin-left: 5px;
+    }
+}
+
+/* ---------- Info lists (nom / rôle) → rounded card with subtle rose border ---------- */
+.list-group-flush {
+    border: 1px solid rgba(233, 30, 99, .30);
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.list-group-flush .list-group-item {
+    padding: .9rem 1.15rem !important;
+    background: rgba(255, 255, 255, .04) !important;
+    border-color: rgba(255, 255, 255, .08) !important;
+}
+
+.list-group-flush .list-group-item:last-child {
+    border-bottom: 0 !important;
+}
