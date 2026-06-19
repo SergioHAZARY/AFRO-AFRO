@@ -1425,3 +1425,19 @@ p {
         font-size: 26px !important;
     }
 }
+
+/* =====================================================================
+   Sticky navbar must be OPAQUE so content scrolls cleanly underneath
+   (JS adds .position-fixed .bg-dark on scroll; this overrides the
+   transparent top-state gradient that was bleeding content through).
+   ===================================================================== */
+.navbar.navbar-expand-lg.navbar-dark.position-fixed {
+    background: #0d0d0d !important;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, .5) !important;
+}
+@media (max-width: 991.98px) {
+    .navbar.navbar-expand-lg.navbar-dark.position-fixed {
+        padding-top: 8px;
+        padding-bottom: 4px;
+    }
+}
