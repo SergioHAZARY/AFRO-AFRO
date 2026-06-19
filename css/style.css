@@ -1130,3 +1130,83 @@ p {
         font-size: 23px !important;
     }
 }
+
+/* ===== Mobile nav icons — large & prominent (final sizing) ===== */
+@media (max-width: 991.98px) {
+    .navbar .nav-icons {
+        flex-wrap: wrap;
+        justify-content: center;
+        max-width: 94vw;
+        padding: 7px;
+        gap: 2px !important;
+    }
+    .navbar .nav-icon {
+        padding: 12px 16px;
+    }
+    .navbar .nav-icon i {
+        font-size: 32px;
+    }
+    .navbar #adminLoginBtn {
+        width: 58px;
+        height: 58px;
+        font-size: 30px !important;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .navbar .nav-icon {
+        padding: 11px 13px;
+    }
+    .navbar .nav-icon i {
+        font-size: 30px;
+    }
+    .navbar #adminLoginBtn {
+        width: 54px;
+        height: 54px;
+        font-size: 28px !important;
+    }
+}
+
+@media (max-width: 360px) {
+    .navbar .nav-icon {
+        padding: 10px 11px;
+    }
+    .navbar .nav-icon i {
+        font-size: 27px;
+    }
+    .navbar #adminLoginBtn {
+        width: 48px;
+        height: 48px;
+        font-size: 25px !important;
+    }
+}
+
+/* ===== Phone nav: 3 large icons per row, wraps to 2 rows (never clipped) ===== */
+@media (max-width: 575.98px) {
+    .navbar .nav-icons {
+        flex-wrap: wrap;
+        justify-content: center;
+        max-width: 220px;
+        gap: 4px !important;
+        padding: 8px;
+        row-gap: 4px !important;
+    }
+    .navbar .nav-icon {
+        padding: 9px 12px;
+    }
+    .navbar .nav-icon i {
+        font-size: 32px;
+    }
+    .navbar #adminLoginBtn {
+        width: 56px;
+        height: 56px;
+        font-size: 30px !important;
+    }
+}
+
+/* balanced 3 + 3 grid of large nav icons on phones */
+@media (max-width: 575.98px) {
+    .navbar .nav-icons {
+        max-width: 184px;
+    }
+}
