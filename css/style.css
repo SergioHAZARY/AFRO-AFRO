@@ -1084,3 +1084,49 @@ p {
         font-size: 21px !important;
     }
 }
+
+/* ---------- Mobile nav icons: larger still ---------- */
+@media (max-width: 991.98px) {
+    .nav-icons {
+        padding: 6px;
+    }
+    .nav-icon {
+        padding: 11px 15px;
+    }
+    .nav-icon i {
+        font-size: 28px;
+    }
+    #adminLoginBtn {
+        width: 52px;
+        height: 52px;
+        font-size: 27px !important;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .nav-icon {
+        padding: 10px 12px;
+    }
+    .nav-icon i {
+        font-size: 26px;
+    }
+    #adminLoginBtn {
+        width: 48px;
+        height: 48px;
+        font-size: 25px !important;
+    }
+}
+
+@media (max-width: 360px) {
+    .nav-icon {
+        padding: 9px 10px;
+    }
+    .nav-icon i {
+        font-size: 24px;
+    }
+    #adminLoginBtn {
+        width: 44px;
+        height: 44px;
+        font-size: 23px !important;
+    }
+}
