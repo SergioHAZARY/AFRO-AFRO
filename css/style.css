@@ -1296,3 +1296,132 @@ p {
         margin: 0 !important;
     }
 }
+
+/* =====================================================================
+   FULL-WIDTH NAV BAR (icons spread edge-to-edge, underline active)
+   Overrides the previous centered "pill" styling.
+   ===================================================================== */
+.navbar .nav-icons {
+    background: transparent !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    flex: 1 1 auto !important;
+    width: auto !important;
+    max-width: none !important;
+    justify-content: space-around !important;
+    align-items: center;
+    gap: 0 !important;
+    padding: 0 !important;
+}
+
+.navbar .nav-icon {
+    flex: 1 1 0;
+    flex-direction: column;
+    gap: 5px;
+    background: transparent !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    color: rgba(255, 255, 255, .72);
+    padding: 12px 4px !important;
+    margin: 0 !important;
+    position: relative;
+}
+
+.navbar .nav-icon i {
+    font-size: 22px;
+}
+
+.navbar .nav-icon:hover {
+    color: #fff;
+    background: transparent !important;
+}
+
+.navbar .nav-icon.active {
+    color: #e91e63;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+/* underline indicator under the active item (like the reference) */
+.navbar .nav-icon.active::after {
+    display: block !important;
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 64%;
+    height: 3px;
+    background: #e91e63;
+    border-radius: 3px;
+}
+
+/* login = plain icon in the bar (no chip) */
+.navbar #adminLoginBtn {
+    flex: 1 1 0;
+    width: auto !important;
+    height: auto !important;
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    color: rgba(255, 255, 255, .72) !important;
+    font-size: 22px !important;
+    padding: 12px 4px !important;
+    margin: 0 !important;
+}
+.navbar #adminLoginBtn:hover {
+    color: #e91e63 !important;
+    background: transparent !important;
+}
+
+/* subtle top gradient so the bar stays legible over the hero image */
+.navbar.navbar-expand-lg.navbar-dark {
+    background: linear-gradient(180deg, rgba(0, 0, 0, .55), rgba(0, 0, 0, 0)) !important;
+}
+
+/* Desktop: nav fills the row beside the brand (cancel the old absolute centering) */
+@media (min-width: 992px) {
+    .navbar .nav-icons {
+        position: static !important;
+        left: auto !important;
+        transform: none !important;
+        margin-left: 2rem !important;
+    }
+    .navbar .nav-icon .nav-label {
+        display: block;
+        font-size: 12px;
+    }
+}
+
+/* Mobile/tablet: full-width bar on its own row, icons spread, no labels */
+@media (max-width: 991.98px) {
+    .navbar.navbar-expand-lg.navbar-dark {
+        flex-wrap: wrap;
+        justify-content: center !important;
+        padding-top: 10px;
+        padding-bottom: 0;
+    }
+    .navbar .navbar-brand {
+        width: 100%;
+        text-align: center;
+        margin: 0 0 4px !important;
+    }
+    .navbar .nav-icons.ms-auto.me-4 {
+        width: 100% !important;
+        flex: 0 0 100% !important;
+        margin: 0 !important;
+        justify-content: space-around !important;
+    }
+    .navbar .nav-icon .nav-label {
+        display: none;
+    }
+    .navbar .nav-icon i {
+        font-size: 26px;
+    }
+    .navbar #adminLoginBtn {
+        font-size: 26px !important;
+    }
+}
