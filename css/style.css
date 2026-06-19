@@ -1,5 +1,14 @@
 /********** Template CSS **********/
 
+html {
+    scroll-behavior: smooth;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
 .back-to-top {
     position: fixed;
     display: none;
@@ -71,68 +80,122 @@
     transition: .5s;
 }
 
-.navbar .navbar-nav .nav-link {
-    margin-right: 25px;
-    padding: 40px 0;
-    color: var(--bs-white);
-    font-size: 17px;
-    text-transform: uppercase;
-    outline: none;
-    transition: .5s;
+/* Nav icons - toujours visibles */
+.nav-icons {
+    display: flex;
+    align-items: center;
 }
 
-.navbar .navbar-nav .nav-link:hover,
-.navbar .navbar-nav .nav-link.active {
-    color: var(--bs-primary);
+.nav-icon {
+    color: #888;
+    font-size: 22px;
+    text-decoration: none;
+    transition: all 0.25s;
+    line-height: 1;
+    position: relative;
+    padding: 8px 0;
 }
 
-@media (max-width: 991.98px) {
-    .navbar .navbar-nav .nav-link,
-    .navbar.bg-dark .navbar-nav .nav-link {
-        margin-right: 0;
-        padding: 10px 0;
-    }
-
-    .navbar .navbar-nav {
-        margin-top: 8px;
-        border-top: 1px solid var(--bs-light);
-    }
+.nav-icon:hover {
+    color: #e91e63;
 }
 
+.nav-icon.active {
+    color: #e91e63;
+}
+
+.nav-icon.active::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 3px;
+    background: #e91e63;
+    border-radius: 3px;
+}
+
+#adminLoginBtn {
+    font-size: 22px !important;
+    color: #888 !important;
+    transition: color 0.25s;
+}
+
+#adminLoginBtn:hover {
+    color: #e91e63 !important;
+}
+
+/* Desktop : icônes centrées dans la navbar */
 @media (min-width: 992px) {
-    .navbar.bg-dark .navbar-nav .nav-link {
-        padding: 20px 0;
+    .nav-icons {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        gap: 0 !important;
+        margin: 0 !important;
     }
-
-    .navbar .nav-item .dropdown-menu {
-        display: block;
-        border: none;
-        margin-top: 0;
-        top: 150%;
-        opacity: 0;
-        visibility: hidden;
-        transition: .5s;
+    .nav-icon {
+        font-size: 24px;
+        padding: 12px 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
-
-    .navbar .nav-item:hover .dropdown-menu {
-        top: 100%;
-        visibility: visible;
-        transition: .5s;
-        opacity: 1;
+    .nav-icon.active::after {
+        bottom: 0;
+        width: 24px;
+        height: 3px;
+    }
+    #adminLoginBtn {
+        font-size: 24px !important;
+        padding: 12px 28px;
+        display: flex;
+        align-items: center;
     }
 }
 
-.navbar .dropdown-toggle::after {
-    border: none;
-    content: "\f107";
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    vertical-align: middle;
-    margin-left: 8px;
+/* Mobile : icônes alignées dans la navbar (à droite du logo) */
+@media (max-width: 991.98px) {
+    .nav-icons {
+        gap: 12px !important;
+        margin-right: 12px !important;
+    }
+    .nav-icon {
+        font-size: 20px;
+        padding: 4px 0;
+    }
+    .nav-icon.active::after {
+        display: block;
+        bottom: -2px;
+        width: 16px;
+    }
+    #adminLoginBtn {
+        font-size: 20px !important;
+    }
+}
+
+@media (max-width: 400px) {
+    .nav-icon {
+        font-size: 19px;
+    }
+    #adminLoginBtn {
+        font-size: 19px !important;
+    }
 }
 
 
 /*** Header ***/
+#header-carousel .display-1 {
+    font-size: 2rem;
+}
+
+@media (min-width: 768px) {
+    #header-carousel .display-1 {
+        font-size: 2.8rem;
+    }
+}
+
 .carousel-caption {
     top: 0;
     left: 0;
@@ -157,14 +220,55 @@
 @media (max-width: 768px) {
     #header-carousel .carousel-item {
         position: relative;
-        min-height: 550px;
+        min-height: 450px;
     }
-    
+
     #header-carousel .carousel-item img {
         position: absolute;
         width: 100%;
         height: 100%;
         object-fit: cover;
+    }
+
+    .carousel-caption {
+        padding: 0 15px;
+    }
+
+    .carousel-caption .fs-5 {
+        font-size: 14px !important;
+        line-height: 1.5;
+    }
+
+    .carousel-caption .title {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    .carousel-caption .btn {
+        padding: 10px 24px !important;
+        font-size: 14px;
+    }
+
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        width: 2rem;
+        height: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    #header-carousel .carousel-item {
+        min-height: 380px;
+    }
+
+    #header-carousel .display-1 {
+        font-size: 1.5rem;
+    }
+
+    .carousel-caption .fs-5 {
+        font-size: 12px !important;
     }
 }
 
@@ -172,6 +276,15 @@
     padding-top: 200px;
     background: linear-gradient(rgba(0, 0, 0, .7), rgba(0, 0, 0, .7)), url(../img/carousel-1.jpg) top center no-repeat;
     background-size: cover;
+}
+
+@media (max-width: 768px) {
+    .page-header {
+        padding-top: 140px;
+    }
+    .page-header h1 {
+        font-size: 1.8rem;
+    }
 }
 
 .page-header .breadcrumb-item + .breadcrumb-item::before {
@@ -280,6 +393,23 @@
         background: linear-gradient(to bottom, var(--bs-secondary), var(--bs-dark));
         text-align: center;
     }
+
+    .service-item .service-text h3 {
+        font-size: 1.1rem;
+    }
+
+    .service-item .service-text p {
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    .service-item .service-img {
+        padding: 2rem !important;
+    }
+
+    .service-item .service-img::before {
+        border-width: 1.5rem;
+    }
 }
 
 
@@ -349,6 +479,22 @@
 }
 
 
+/*** Team Mobile ***/
+@media (max-width: 768px) {
+    .team-item .team-name {
+        height: 45px;
+    }
+    .team-item .team-name h5 {
+        font-size: 13px;
+    }
+    .team-item .team-body .team-before span,
+    .team-item .team-body .team-after span {
+        font-size: 12px;
+        margin: 3px;
+    }
+}
+
+
 /*** Testimonial ***/
 .testimonial-carousel {
     max-width: 700px;
@@ -388,6 +534,26 @@
     opacity: 1;
 }
 
+@media (max-width: 768px) {
+    .testimonial-carousel .owl-dots {
+        margin-top: 20px;
+        height: 70px;
+    }
+    .testimonial-carousel .owl-dots .owl-dot {
+        width: 40px;
+        height: 40px;
+        padding: 6px;
+    }
+    .testimonial-carousel .owl-dots .owl-dot.active {
+        width: 65px;
+        height: 65px;
+    }
+    .testimonial-carousel .testimonial-item p {
+        font-size: 14px !important;
+        line-height: 1.6;
+    }
+}
+
 
 /*** Footer ***/
 @keyframes footerAnimatedBg {
@@ -405,4 +571,122 @@
 	background-position: 0px 0px;
     background-repeat: repeat-x;
 	animation: footerAnimatedBg 50s linear infinite;
+}
+
+@media (max-width: 768px) {
+    .footer {
+        padding: 2rem 0 !important;
+    }
+    .footer .display-4 {
+        font-size: 1.8rem;
+    }
+    .footer .btn-lg-square {
+        width: 40px;
+        height: 40px;
+        font-size: 14px;
+    }
+    .footer p {
+        font-size: 13px;
+    }
+}
+
+
+/*** Global Mobile Optimizations ***/
+@media (max-width: 768px) {
+    body {
+        overflow-x: hidden;
+    }
+
+    .container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .container-fluid.py-5 {
+        padding-top: 2.5rem !important;
+        padding-bottom: 2.5rem !important;
+    }
+
+    .container.py-5 {
+        padding-top: 1.5rem !important;
+        padding-bottom: 1.5rem !important;
+    }
+
+    .title h1 {
+        font-size: 1.4rem;
+    }
+
+    .title h5 {
+        font-size: 14px;
+    }
+
+    .title {
+        margin-bottom: 1.2rem;
+    }
+
+    h1.display-1, h1.display-4 {
+        font-size: 1.6rem;
+    }
+
+    .btn {
+        font-size: 14px;
+    }
+
+    .btn-outline-primary.py-3 {
+        padding: 10px 20px !important;
+    }
+
+    .form-floating > .form-control,
+    .form-floating > .form-select {
+        font-size: 14px;
+    }
+
+    .back-to-top {
+        right: 20px;
+        bottom: 20px;
+        width: 38px;
+        height: 38px;
+    }
+}
+
+@media (max-width: 480px) {
+    .title h1 {
+        font-size: 1.2rem;
+    }
+
+    .navbar .navbar-brand h2 {
+        font-size: 1.2rem;
+    }
+}
+
+/*** Heading hierarchy: section titles switched from <h1> to <h2> for SEO.
+     These rules preserve the original <h1> visual size/style. ***/
+.title .title-left h2,
+.title .title-center h2,
+.title .title-right h2 {
+    border-bottom: 1px solid var(--bs-white);
+    font-size: calc(1.375rem + 1.5vw);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: .5rem;
+}
+
+@media (min-width: 1200px) {
+    .title .title-left h2,
+    .title .title-center h2,
+    .title .title-right h2 {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .title h2 {
+        font-size: 1.4rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .title h2 {
+        font-size: 1.2rem;
+    }
 }

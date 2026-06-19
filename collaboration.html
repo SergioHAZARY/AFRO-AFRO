@@ -1,12 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
     <meta charset="utf-8">
-    <title>AFRO - AFRO</title>
+    <title>AFRO - AFRO | Devenir Modèle & Collaboration</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="" name="keywords">
-    <meta content="" name="description">
+    <meta name="keywords" content="devenir mannequin, collaboration mode, casting Afro-Afro, partenariat, mannequins Madagascar">
+    <meta name="description" content="Rejoignez AFRO-AFRO : candidatez pour devenir mannequin ou proposez une collaboration. Formulaires en ligne pour modèles et partenaires.">
+    <meta name="theme-color" content="#e91e63">
+    <meta name="author" content="AFRO-AFRO">
+    <link rel="canonical" href="https://afro-afro.web.app/collaboration.html">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="AFRO-AFRO">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:title" content="AFRO - AFRO | Devenir Modèle & Collaboration">
+    <meta property="og:description" content="Rejoignez AFRO-AFRO : candidatez pour devenir mannequin ou proposez une collaboration. Formulaires en ligne pour modèles et partenaires.">
+    <meta property="og:url" content="https://afro-afro.web.app/collaboration.html">
+    <meta property="og:image" content="https://afro-afro.web.app/img/carousel-1.jpg">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="AFRO - AFRO | Devenir Modèle & Collaboration">
+    <meta name="twitter:description" content="Rejoignez AFRO-AFRO : candidatez pour devenir mannequin ou proposez une collaboration. Formulaires en ligne pour modèles et partenaires.">
+    <meta name="twitter:image" content="https://afro-afro.web.app/img/carousel-1.jpg">
 
     <!-- Favicon -->
     <link href="img/fav.jpg" rel="icon">
@@ -14,9 +32,7 @@
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;700&family=Work+Sans:wght@400;600&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;700&family=Work+Sans:wght@400;600&display=swap" rel="stylesheet">
 
     <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" rel="stylesheet">
@@ -32,6 +48,60 @@
 
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+
+    <style>
+        /* Sélecteur de formulaire */
+        .form-selector {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+        .form-selector .selector-btn {
+            flex: 1;
+            padding: 16px 12px;
+            border-radius: 10px;
+            border: 2px solid #444;
+            background: transparent;
+            color: #aaa;
+            font-family: 'Josefin Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.25s;
+            text-align: center;
+        }
+        .form-selector .selector-btn:hover {
+            border-color: #C6793A;
+            color: #C6793A;
+        }
+        .form-selector .selector-btn.active {
+            border-color: #C6793A;
+            background: rgba(198,121,58,0.12);
+            color: #C6793A;
+        }
+        .form-selector .selector-btn i {
+            display: block;
+            font-size: 22px;
+            margin-bottom: 6px;
+        }
+        /* Formulaires */
+        .form-panel { display: none; }
+        .form-panel.active { display: block; }
+        /* Success message */
+        .form-success {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        .form-success i {
+            font-size: 52px;
+            color: #C6793A;
+            margin-bottom: 16px;
+            display: block;
+        }
+    </style>
 </head>
 
 <body>
@@ -49,129 +119,342 @@
     <div class="container-fluid p-0">
         <nav class="navbar navbar-expand-lg navbar-dark px-lg-5">
             <a href="index.html" class="navbar-brand ms-4 ms-lg-0">
-                <h2 class="mb-0 text-primary text-uppercase"><span class="me-1">🌹</span>AFRO - AFRO</h2>
+                <h2 class="mb-0 text-primary text-uppercase"><span class="me-1"></span>AFRO - AFRO</h2>
             </a>
-            <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse"
-                data-bs-target="#navbarCollapse">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarCollapse">
-                <div class="navbar-nav mx-auto p-4 p-lg-0">
-                    <a href="index.html" class="nav-item nav-link">Home</a>
-                    <a href="about.html" class="nav-item nav-link">About</a>
-                    <a href="service.html" class="nav-item nav-link">Services</a>
-                    <a href="model.html" class="nav-item nav-link">Model</a>
-                    <a href="collaboration.html" class="nav-item nav-link active">Collaboration</a>
-                </div>
-                </div>
-                <div class="d-none d-lg-flex">
-                    <a class="btn btn-outline-primary border-2" href="https://jymickha-styvenley.netlify.app/">Visiter BMS 🌹</a>
-                </div>
+            <div class="nav-icons ms-auto d-flex align-items-center gap-3 me-4 me-lg-0">
+                <a href="index.html" class="nav-icon" title="Home"><i class="bi bi-house-door-fill"></i></a>
+                <a href="about.html" class="nav-icon" title="About"><i class="bi bi-info-circle-fill"></i></a>
+                <a href="service.html" class="nav-icon" title="Services"><i class="bi bi-stars"></i></a>
+                <a href="model.html" class="nav-icon" title="Model"><i class="bi bi-people-fill"></i></a>
+                <a href="collaboration.html" class="nav-icon active" title="Collaboration"><i class="bi bi-envelope-fill"></i></a>
+                <button class="btn btn-sm border-0 p-0"
+                    id="adminLoginBtn"
+                    data-bs-toggle="modal"
+                    data-bs-target="#adminLoginModal"
+                    title="Connexion"
+                    style="color:#e91e63; font-size:20px;">
+                    <i class="bi bi-person-circle"></i>
+                </button>
             </div>
         </nav>
 
         <div class="page-header pb-5">
             <div class="container text-center py-5">
-                <h1 class="display-4 text-uppercase mb-3 animated slideInDown">Contact</h1>
-                <nav aria-label="breadcrumb animated slideInDown">
-                    <ol class="breadcrumb justify-content-center text-uppercase mb-0">
-                        <li class="breadcrumb-item"><a class="text-white" href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a class="text-white" href="#">Pages</a></li>
-                        <li class="breadcrumb-item text-primary active" aria-current="page">Contact</li>
-                    </ol>
-                </nav>
+                <h1 class="display-4 text-uppercase mb-3 animated slideInDown">Rejoindre AFRO-AFRO</h1>
             </div>
         </div>
     </div>
     <!-- Header End -->
 
 
-    <!-- Contact Start -->
+    <!-- Forms Section Start -->
     <div class="container-fluid py-5">
         <div class="container py-5">
             <div class="row g-5">
-                <div class="col-lg-6">
+
+                <!-- Colonne gauche : infos contact -->
+                <div class="col-lg-5">
                     <div class="title wow fadeInUp" data-wow-delay="0.1s">
                         <div class="title-left">
                             <h5>Contact</h5>
-                            <h1>📩Contactez-nous</h1>
+                            <h2>📩 Contactez-nous</h2>
                         </div>
                     </div>
-                    <table class="table table-dark mb-0 wow fadeInUp" data-wow-delay="0.3s">
+                    <table class="table table-dark mb-4 wow fadeInUp" data-wow-delay="0.3s">
                         <tr>
-                            <td>PHONE</td>
-                            <td>+261387931629</td>
+                            <td><i class="bi bi-telephone text-primary me-2"></i>PHONE</td>
+                            <td>+261 38 79 31 629</td>
                         </tr>
                         <tr>
-                            <td>E-MAIL</td>
+                            <td><i class="bi bi-envelope text-primary me-2"></i>E-MAIL</td>
                             <td>benahyharitina@gmail.com</td>
                         </tr>
                         <tr>
-                            <td>ADDRESS</td>
+                            <td><i class="bi bi-geo-alt text-primary me-2"></i>ADDRESS</td>
                             <td>Ambohipo, Antananarivo, Madagascar</td>
                         </tr>
                         <tr class="border-dark">
-                            <td>FOLLOW US</td>
+                            <td><i class="bi bi-share text-primary me-2"></i>FOLLOW</td>
                             <td>
-                                <a class="me-1" href="#!"><i class="fab fa-x-twitter"></i></a>
-                                <a class="me-1" href="https://www.facebook.com/profile.php?id=100086418086028"><i class="fab fa-facebook-f"></i></a>
-                                <a class="me-1" href="#!"><i class="fab fa-youtube"></i></a>
-                                <a class="me-1" href="#!"><i class="fab fa-linkedin-in"></i></a>
+                                <a class="me-2 text-light" href="#!"><i class="fab fa-x-twitter"></i></a>
+                                <a class="me-2 text-light" href="https://www.facebook.com/profile.php?id=100086418086028"><i class="fab fa-facebook-f"></i></a>
+                                <a class="me-2 text-light" href="#!"><i class="fab fa-youtube"></i></a>
+                                <a class="me-2 text-light" href="#!"><i class="fab fa-linkedin-in"></i></a>
                             </td>
                         </tr>
                     </table>
+
+                    <div class="wow fadeInUp" data-wow-delay="0.4s" style="background:rgba(198,121,58,0.08); border:1px solid rgba(198,121,58,0.25); border-radius:10px; padding:20px;">
+                        <p class="text-light mb-2"><i class="bi bi-info-circle text-primary me-2"></i><strong>Comment ça marche ?</strong></p>
+                        <ul class="text-muted small mb-0" style="padding-left:18px; line-height:2;">
+                            <li>Remplissez le formulaire correspondant</li>
+                            <li>Nous examinons votre demande sous 48h</li>
+                            <li>Nous vous contactons par email ou téléphone</li>
+                            <li>Bienvenue dans la famille AFRO-AFRO !</li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
-                    <form>
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <div class="form-floating">
-                                    <input type="text" class="form-control bg-secondary border-0" id="name"
-                                        placeholder="Your Name">
-                                    <label for="name">Your Name</label>
+
+                <!-- Colonne droite : formulaires -->
+                <div class="col-lg-7 wow fadeInUp" data-wow-delay="0.5s">
+
+                    <!-- Sélecteur de formulaire -->
+                    <div class="form-selector">
+                        <button class="selector-btn" id="btnModele" onclick="selectForm('modele')">
+                            <i class="bi bi-person-badge"></i>
+                            Devenir une Modèle
+                        </button>
+                        <button class="selector-btn" id="btnCollaboration" onclick="selectForm('collaboration')">
+                            <i class="bi bi-briefcase"></i>
+                            Faire une Collaboration
+                        </button>
+                    </div>
+
+                    <!-- Message de bienvenue (avant sélection) -->
+                    <div id="formWelcome" class="text-center py-5">
+                        <i class="bi bi-arrow-up" style="font-size:32px; color:#555;"></i>
+                        <p class="text-muted mt-3">Choisissez une option ci-dessus pour afficher le formulaire</p>
+                    </div>
+
+                    <!-- ===================== FORMULAIRE DEVENIR MODÈLE ===================== -->
+                    <div id="formModele" class="form-panel">
+                        <div id="formModeleContent">
+                            <h5 class="text-white mb-4">
+                                <i class="bi bi-person-badge text-primary me-2"></i>Candidature Modèle
+                            </h5>
+                            <form id="modeleForm" novalidate>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control bg-secondary border-0 text-white"
+                                                id="m_nom" name="nom" placeholder="Prénom & Nom" required>
+                                            <label for="m_nom" class="text-muted">Prénom & Nom *</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="email" class="form-control bg-secondary border-0 text-white"
+                                                id="m_email" name="email" placeholder="Email" required>
+                                            <label for="m_email" class="text-muted">Email *</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="tel" class="form-control bg-secondary border-0 text-white"
+                                                id="m_telephone" name="telephone" placeholder="Téléphone" required>
+                                            <label for="m_telephone" class="text-muted">Téléphone *</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-floating">
+                                            <input type="number" class="form-control bg-secondary border-0 text-white"
+                                                id="m_age" name="age" placeholder="Âge" min="15" max="60" required>
+                                            <label for="m_age" class="text-muted">Âge *</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-floating">
+                                            <input type="number" class="form-control bg-secondary border-0 text-white"
+                                                id="m_taille" name="taille" placeholder="Taille (cm)" min="140" max="210">
+                                            <label for="m_taille" class="text-muted">Taille (cm)</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control bg-secondary border-0 text-white"
+                                                id="m_ville" name="ville" placeholder="Ville / Quartier" required>
+                                            <label for="m_ville" class="text-muted">Ville / Quartier *</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <select class="form-select bg-secondary border-0 text-white" id="m_experience" name="experience" required>
+                                                <option value="" disabled selected></option>
+                                                <option value="Aucune expérience">Aucune expérience</option>
+                                                <option value="Débutant(e)">Débutant(e)</option>
+                                                <option value="Intermédiaire">Intermédiaire</option>
+                                                <option value="Professionnel(le)">Professionnel(le)</option>
+                                            </select>
+                                            <label for="m_experience" class="text-muted">Niveau d'expérience *</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control bg-secondary border-0 text-white"
+                                                id="m_instagram" name="instagram" placeholder="Instagram ou Facebook (optionnel)">
+                                            <label for="m_instagram" class="text-muted">Instagram / Facebook (optionnel)</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-floating">
+                                            <select class="form-select bg-secondary border-0 text-white" id="m_source" name="source">
+                                                <option value="" disabled selected></option>
+                                                <option value="Facebook">Facebook</option>
+                                                <option value="Instagram">Instagram</option>
+                                                <option value="Bouche à oreille">Bouche à oreille</option>
+                                                <option value="Ami(e)">Un(e) ami(e)</option>
+                                                <option value="Autre">Autre</option>
+                                            </select>
+                                            <label for="m_source" class="text-muted">Comment avez-vous connu AFRO-AFRO ?</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-floating">
+                                            <textarea class="form-control bg-secondary border-0 text-white"
+                                                id="m_motivation" name="motivation" placeholder="Motivation"
+                                                style="height:120px;" required></textarea>
+                                            <label for="m_motivation" class="text-muted">Votre motivation *</label>
+                                        </div>
+                                    </div>
+                                    <div id="modeleFormError" class="col-12 d-none">
+                                        <div class="alert alert-danger py-2 small mb-0"></div>
+                                    </div>
+                                    <div class="col-12">
+                                        <button class="btn btn-outline-primary border-2 w-100 py-3" type="submit" id="modeleSubmitBtn">
+                                            <i class="bi bi-send me-2"></i>Envoyer ma candidature
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-floating">
-                                    <input type="email" class="form-control bg-secondary border-0" id="email"
-                                        placeholder="Your Email">
-                                    <label for="email">Your Email</label>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="form-floating">
-                                    <input type="text" class="form-control bg-secondary border-0" id="subject"
-                                        placeholder="Subject">
-                                    <label for="subject">Subject</label>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="form-floating">
-                                    <textarea class="form-control bg-secondary border-0"
-                                        placeholder="Leave a message here" id="message"
-                                        style="height: 150px"></textarea>
-                                    <label for="message">Message</label>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <button class="btn btn-outline-primary border-2 w-100 py-3" type="submit">Send
-                                    Message</button>
-                            </div>
+                            </form>
                         </div>
-                    </form>
+                        <!-- Message succès modèle -->
+                        <div id="modeleSuccess" class="form-success">
+                            <i class="bi bi-check-circle-fill"></i>
+                            <h4 class="text-white mb-2">Candidature envoyée !</h4>
+                            <p class="text-muted">Merci <strong id="modeleSuccessName" class="text-primary"></strong> !<br>
+                                Nous avons bien reçu votre candidature.<br>
+                                Notre équipe vous contactera dans les 48h.</p>
+                            <button class="btn btn-outline-primary border-2 mt-3" onclick="resetForm('modele')">
+                                Envoyer une autre candidature
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- ===================== FORMULAIRE COLLABORATION ===================== -->
+                    <div id="formCollaboration" class="form-panel">
+                        <div id="formCollaborationContent">
+                            <h5 class="text-white mb-4">
+                                <i class="bi bi-briefcase text-primary me-2"></i>Demande de Collaboration
+                            </h5>
+                            <form id="collaborationForm" novalidate>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control bg-secondary border-0 text-white"
+                                                id="c_nom" name="nom" placeholder="Prénom & Nom" required>
+                                            <label for="c_nom" class="text-muted">Prénom & Nom *</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control bg-secondary border-0 text-white"
+                                                id="c_entreprise" name="entreprise" placeholder="Entreprise / Marque" required>
+                                            <label for="c_entreprise" class="text-muted">Entreprise / Marque *</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="email" class="form-control bg-secondary border-0 text-white"
+                                                id="c_email" name="email" placeholder="Email" required>
+                                            <label for="c_email" class="text-muted">Email *</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="tel" class="form-control bg-secondary border-0 text-white"
+                                                id="c_telephone" name="telephone" placeholder="Téléphone" required>
+                                            <label for="c_telephone" class="text-muted">Téléphone *</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-floating">
+                                            <select class="form-select bg-secondary border-0 text-white" id="c_type" name="type" required>
+                                                <option value="" disabled selected></option>
+                                                <option value="Shooting photo">Shooting photo</option>
+                                                <option value="Défilé de mode">Défilé de mode</option>
+                                                <option value="Promotion de produit">Promotion de produit</option>
+                                                <option value="Événement d'entreprise">Événement d'entreprise</option>
+                                                <option value="Création de contenu">Création de contenu (vidéo/réseaux)</option>
+                                                <option value="Publicité">Publicité</option>
+                                                <option value="Autre">Autre</option>
+                                            </select>
+                                            <label for="c_type" class="text-muted">Type de collaboration *</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control bg-secondary border-0 text-white"
+                                                id="c_budget" name="budget" placeholder="Budget estimé (optionnel)">
+                                            <label for="c_budget" class="text-muted">Budget estimé (optionnel)</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="date" class="form-control bg-secondary border-0 text-white"
+                                                id="c_date" name="date">
+                                            <label for="c_date" class="text-muted">Date souhaitée (optionnel)</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-floating">
+                                            <select class="form-select bg-secondary border-0 text-white" id="c_source" name="source">
+                                                <option value="" disabled selected></option>
+                                                <option value="Facebook">Facebook</option>
+                                                <option value="Instagram">Instagram</option>
+                                                <option value="Bouche à oreille">Bouche à oreille</option>
+                                                <option value="Ami(e)">Un(e) ami(e)</option>
+                                                <option value="Autre">Autre</option>
+                                            </select>
+                                            <label for="c_source" class="text-muted">Comment avez-vous connu AFRO-AFRO ?</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-floating">
+                                            <textarea class="form-control bg-secondary border-0 text-white"
+                                                id="c_description" name="description" placeholder="Description du projet"
+                                                style="height:130px;" required></textarea>
+                                            <label for="c_description" class="text-muted">Description du projet *</label>
+                                        </div>
+                                    </div>
+                                    <div id="collabFormError" class="col-12 d-none">
+                                        <div class="alert alert-danger py-2 small mb-0"></div>
+                                    </div>
+                                    <div class="col-12">
+                                        <button class="btn btn-primary w-100 py-3" type="submit" id="collabSubmitBtn">
+                                            <i class="bi bi-send me-2"></i>Envoyer ma demande
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- Message succès collaboration -->
+                        <div id="collabSuccess" class="form-success">
+                            <i class="bi bi-check-circle-fill"></i>
+                            <h4 class="text-white mb-2">Demande envoyée !</h4>
+                            <p class="text-muted">Merci <strong id="collabSuccessName" class="text-primary"></strong> !<br>
+                                Nous avons bien reçu votre demande de collaboration.<br>
+                                Notre équipe vous contactera dans les 48h.</p>
+                            <button class="btn btn-primary mt-3" onclick="resetForm('collaboration')">
+                                Envoyer une autre demande
+                            </button>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
     </div>
-    <!-- Contact End -->
+    <!-- Forms Section End -->
 
 
     <!-- Google Map Start -->
     <div class="container-fluid p-0 wow fadeIn" data-wow-delay="0.3s">
         <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4992.456518346922!2d47.55245702007739!3d-18.928454355639854!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x21f07d97994a3395%3A0xb5898653a84f8955!2sAmbohipo%2C%20Tananarive%2C%20Madagascar!5e1!3m2!1sfr!2sfr!4v1768229693819!5m2!1sfr!2sfr" width="100%" height="400px" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-            frameborder="0" allowfullscreen="" aria-hidden="false" tabindex="0"
-            style="width: 100%; height: 500px; filter: grayscale(100%) invert(92%) contrast(83%); border: 0;"></iframe>
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4992.456518346922!2d47.55245702007739!3d-18.928454355639854!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x21f07d97994a3395%3A0xb5898653a84f8955!2sAmbohipo%2C%20Tananarive%2C%20Madagascar!5e1!3m2!1sfr!2sfr!4v1768229693819!5m2!1sfr!2sfr"
+            frameborder="0"
+            style="width: 100%; height: 500px; filter: grayscale(100%) invert(92%) contrast(83%); border: 0;"
+            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+            aria-hidden="false" tabindex="0"></iframe>
     </div>
     <!-- Google Map End -->
 
@@ -180,25 +463,17 @@
     <div class="container-fluid bg-dark text-light footer py-5 wow fadeIn" data-wow-delay="0.1s">
         <div class="container text-center py-5">
             <a href="index.html">
-                <h1 class="display-4 mb-3 text-white text-uppercase"><span class="me-1">🌹</span>AFRO - AFRO</h1>
+                <h2 class="display-4 mb-3 text-white text-uppercase"><span class="me-1"></span>AFRO - AFRO</h2>
             </a>
             <div class="d-flex justify-content-center mb-4">
-                <a class="btn btn-lg-square btn-outline-primary border-2 m-1" href="#!"><i
-                        class="fab fa-x-twitter"></i></a>
-                <a class="btn btn-lg-square btn-outline-primary border-2 m-1" href="https://www.facebook.com/profile.php?id=100086418086028"><i
-                        class="fab fa-facebook-f"></i></a>
-                <a class="btn btn-lg-square btn-outline-primary border-2 m-1" href="#!"><i
-                        class="fab fa-youtube"></i></a>
-                <a class="btn btn-lg-square btn-outline-primary border-2 m-1" href="#!"><i
-                        class="fab fa-linkedin-in"></i></a>
+                <a class="btn btn-lg-square btn-outline-primary border-2 m-1" href="#!"><i class="fab fa-x-twitter"></i></a>
+                <a class="btn btn-lg-square btn-outline-primary border-2 m-1" href="https://www.facebook.com/profile.php?id=100086418086028"><i class="fab fa-facebook-f"></i></a>
+                <a class="btn btn-lg-square btn-outline-primary border-2 m-1" href="#!"><i class="fab fa-youtube"></i></a>
+                <a class="btn btn-lg-square btn-outline-primary border-2 m-1" href="#!"><i class="fab fa-linkedin-in"></i></a>
             </div>
-            <p>&copy; <a class="border-bottom" href="#">AFRO - AFRO Agency</a>, Ouverte à toute collaboration</p>
-
-            <!--/*** The author’s attribution link must remain intact in the template. ***/-->
-            <!--/*** If you wish to remove this credit link, please purchase the Pro Version . ***/-->
+            <p>&copy; <a class="border-bottom" href="#">AFRO - AFRO</a>, Ouverte à toute collaboration</p>
             <p class="mb-0">Developed by <a class="border-bottom" href="https://romainsergio.vercel.app/">Sergio HAZARY</a>.
                 Made in <a href="https://romainsergio.vercel.app/" target="_blank">MADAGASCAR</a>.</p>
-            </p>
         </div>
     </div>
     <!-- Footer End -->
@@ -208,17 +483,220 @@
     <a href="#" class="btn btn-outline-primary border-2 btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 
 
+    <!-- Modal Login Admin -->
+    <div class="modal fade" id="adminLoginModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style="max-width:380px;">
+            <div class="modal-content bg-dark border" style="border-color:#C6793A !important; border-radius:12px;">
+                <div class="modal-header border-0 pb-0">
+                    <h6 class="modal-title text-white">
+                        <i class="bi bi-shield-lock me-2" style="color:#C6793A;"></i>Administration
+                    </h6>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body pt-3">
+                    <div id="adminModalLoginForm">
+                        <div class="mb-3">
+                            <label class="form-label text-muted small">Email</label>
+                            <input type="email" class="form-control bg-secondary border-0 text-white"
+                                id="adminModalEmail" placeholder="admin@email.com">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-muted small">Mot de passe</label>
+                            <input type="password" class="form-control bg-secondary border-0 text-white"
+                                id="adminModalPassword" placeholder="••••••••">
+                        </div>
+                        <div id="adminModalError" class="text-danger small mb-2 d-none"></div>
+                        <button class="btn w-100 py-2 text-white fw-semibold" id="adminModalLoginBtn"
+                            style="background:#C6793A; border:none;">
+                            Se connecter
+                        </button>
+                    </div>
+                    <div id="adminModalLoggedIn" class="d-none text-center py-2">
+                        <p class="text-success mb-3">
+                            <i class="bi bi-check-circle-fill me-2"></i>Connecté en tant qu'Admin
+                        </p>
+                        <a href="admin.html" class="btn w-100 mb-2 text-white"
+                            style="background:#C6793A; border:none;">
+                            <i class="bi bi-speedometer2 me-2"></i>Tableau de bord
+                        </a>
+                        <button class="btn btn-outline-danger w-100 btn-sm" id="adminModalLogoutBtn">
+                            Se déconnecter
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Fin Modal Login Admin -->
+
+
     <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/wow/wow.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/waypoints/waypoints.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="lib/lightbox/js/lightbox.min.js"></script>
+    <script defer src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script defer src="lib/wow/wow.min.js"></script>
+    <script defer src="lib/easing/easing.min.js"></script>
+    <script defer src="lib/waypoints/waypoints.min.js"></script>
+    <script defer src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script defer src="lib/lightbox/js/lightbox.min.js"></script>
+
+    <!-- Firebase SDK -->
+    <script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script defer src="js/firebase-config.js"></script>
+    <script defer src="js/auth-modal.js"></script>
 
     <!-- Template Javascript -->
-    <script src="js/main.js"></script>
+    <script defer src="js/main.js"></script>
+
+    <script>
+    // ============================================================
+    // Logique des formulaires Collaboration
+    // ============================================================
+
+    // Sélection du formulaire via hash URL (#modele ou #collaboration)
+    document.addEventListener("DOMContentLoaded", function () {
+        var hash = window.location.hash;
+        if (hash === "#modele") {
+            selectForm("modele");
+        } else if (hash === "#collaboration") {
+            selectForm("collaboration");
+        }
+    });
+
+    function selectForm(type) {
+        // Boutons
+        document.getElementById("btnModele").classList.toggle("active", type === "modele");
+        document.getElementById("btnCollaboration").classList.toggle("active", type === "collaboration");
+        // Panels
+        document.getElementById("formWelcome").style.display = "none";
+        document.getElementById("formModele").classList.toggle("active", type === "modele");
+        document.getElementById("formCollaboration").classList.toggle("active", type === "collaboration");
+        // Mettre à jour l'URL sans recharger
+        history.replaceState(null, "", "#" + type);
+    }
+
+    function resetForm(type) {
+        if (type === "modele") {
+            document.getElementById("modeleForm").reset();
+            document.getElementById("modeleSuccess").style.display = "none";
+            document.getElementById("formModeleContent").style.display = "block";
+        } else {
+            document.getElementById("collaborationForm").reset();
+            document.getElementById("collabSuccess").style.display = "none";
+            document.getElementById("formCollaborationContent").style.display = "block";
+        }
+    }
+
+    // ---- Soumission formulaire Modèle ----
+    document.getElementById("modeleForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        var nom        = document.getElementById("m_nom").value.trim();
+        var email      = document.getElementById("m_email").value.trim();
+        var telephone  = document.getElementById("m_telephone").value.trim();
+        var age        = document.getElementById("m_age").value.trim();
+        var taille     = document.getElementById("m_taille").value.trim();
+        var ville      = document.getElementById("m_ville").value.trim();
+        var experience = document.getElementById("m_experience").value;
+        var instagram  = document.getElementById("m_instagram").value.trim();
+        var source     = document.getElementById("m_source").value;
+        var motivation = document.getElementById("m_motivation").value.trim();
+        var errDiv     = document.getElementById("modeleFormError");
+
+        // Validation
+        if (!nom || !email || !telephone || !age || !ville || !experience || !motivation) {
+            errDiv.querySelector(".alert").textContent = "Veuillez remplir tous les champs obligatoires (*).";
+            errDiv.classList.remove("d-none");
+            return;
+        }
+        errDiv.classList.add("d-none");
+
+        var btn = document.getElementById("modeleSubmitBtn");
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Envoi en cours...';
+
+        db.collection("model_requests").add({
+            nom:        nom,
+            email:      email,
+            telephone:  telephone,
+            age:        age,
+            taille:     taille || null,
+            ville:      ville,
+            experience: experience,
+            instagram:  instagram || null,
+            source:     source || null,
+            motivation: motivation,
+            status:     "new",
+            timestamp:  firebase.firestore.FieldValue.serverTimestamp()
+        })
+        .then(function () {
+            // Succès
+            document.getElementById("formModeleContent").style.display = "none";
+            document.getElementById("modeleSuccessName").textContent = nom.split(" ")[0];
+            document.getElementById("modeleSuccess").style.display = "block";
+        })
+        .catch(function (error) {
+            errDiv.querySelector(".alert").textContent = "Erreur lors de l'envoi. Veuillez réessayer. (" + error.message + ")";
+            errDiv.classList.remove("d-none");
+            btn.disabled = false;
+            btn.innerHTML = '<i class="bi bi-send me-2"></i>Envoyer ma candidature';
+        });
+    });
+
+    // ---- Soumission formulaire Collaboration ----
+    document.getElementById("collaborationForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        var nom        = document.getElementById("c_nom").value.trim();
+        var entreprise = document.getElementById("c_entreprise").value.trim();
+        var email      = document.getElementById("c_email").value.trim();
+        var telephone  = document.getElementById("c_telephone").value.trim();
+        var type       = document.getElementById("c_type").value;
+        var budget     = document.getElementById("c_budget").value.trim();
+        var date       = document.getElementById("c_date").value;
+        var source     = document.getElementById("c_source").value;
+        var description = document.getElementById("c_description").value.trim();
+        var errDiv     = document.getElementById("collabFormError");
+
+        // Validation
+        if (!nom || !entreprise || !email || !telephone || !type || !description) {
+            errDiv.querySelector(".alert").textContent = "Veuillez remplir tous les champs obligatoires (*).";
+            errDiv.classList.remove("d-none");
+            return;
+        }
+        errDiv.classList.add("d-none");
+
+        var btn = document.getElementById("collabSubmitBtn");
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Envoi en cours...';
+
+        db.collection("collaboration_requests").add({
+            nom:               nom,
+            entreprise:        entreprise,
+            email:             email,
+            telephone:         telephone,
+            type_collaboration: type,
+            budget:            budget || null,
+            date_souhaitee:    date || null,
+            source:            source || null,
+            description:       description,
+            status:            "new",
+            timestamp:         firebase.firestore.FieldValue.serverTimestamp()
+        })
+        .then(function () {
+            document.getElementById("formCollaborationContent").style.display = "none";
+            document.getElementById("collabSuccessName").textContent = nom.split(" ")[0];
+            document.getElementById("collabSuccess").style.display = "block";
+        })
+        .catch(function (error) {
+            errDiv.querySelector(".alert").textContent = "Erreur lors de l'envoi. Veuillez réessayer. (" + error.message + ")";
+            errDiv.classList.remove("d-none");
+            btn.disabled = false;
+            btn.innerHTML = '<i class="bi bi-send me-2"></i>Envoyer ma demande';
+        });
+    });
+    </script>
 </body>
 
 </html>

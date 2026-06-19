@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Admin — AFRO-AFRO</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;700&family=Work+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link href="img/fav.jpg" rel="icon">
+
+    <style>
+        :root {
+            --primary: #C6793A;
+            --primary-faint: rgba(198, 121, 58, 0.12);
+            --bg-body: #111113;
+            --bg-card: #1a1a1e;
+            --bg-input: #222228;
+            --border: #2c2c32;
+            --text-muted: #7a7a85;
+            --sidebar-w: 240px;
+        }
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Work Sans', sans-serif;
+            background: var(--bg-body);
+            color: #e0e0e6;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        /* ===== LOGIN SCREEN ===== */
+        #loginScreen {
+            position: fixed; inset: 0;
+            background: radial-gradient(ellipse at 60% 40%, #1a1208 0%, var(--bg-body) 70%);
+            z-index: 9999;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .login-box {
+            width: 100%; max-width: 360px;
+            background: var(--bg-card);
+            border: 1px solid var(--primary);
+            border-radius: 16px;
+            padding: 36px 32px;
+            box-shadow: 0 0 60px rgba(198,121,58,0.15);
+        }
+        .login-box .brand { font-family: 'Josefin Sans', sans-serif; font-size: 22px; font-weight: 700; color: #fff; }
+        .login-box .sub { font-size: 12px; color: var(--text-muted); }
+        .login-box input {
+            background: var(--bg-input); border: 1px solid var(--border); color: #fff; border-radius: 8px;
+        }
+        .login-box input:focus {
+            background: var(--bg-input); border-color: var(--primary); color: #fff;
+            box-shadow: 0 0 0 3px rgba(198,121,58,0.15);
+        }
+        .btn-admin { background: var(--primary); border: none; color: #fff; font-weight: 600; border-radius: 8px; }
+        .btn-admin:hover { background: #b0692e; color: #fff; }
+
+        /* ===== LAYOUT ===== */
+        #appShell { display: flex; height: 100vh; }
+
+        /* SIDEBAR */
+        #sidebar {
+            width: var(--sidebar-w); background: var(--bg-card); border-right: 1px solid var(--border);
+            display: flex; flex-direction: column; position: fixed; top: 0; left: 0; height: 100%; z-index: 200;
+            transition: transform 0.28s ease;
+        }
+        #sidebar.hidden { transform: translateX(-100%); }
+        .sidebar-brand { padding: 20px 20px 16px; border-bottom: 1px solid var(--border); }
+        .sidebar-brand .logo { font-family: 'Josefin Sans', sans-serif; font-weight: 700; font-size: 17px; color: #fff; }
+        .sidebar-nav { padding: 12px 10px; flex: 1; overflow-y: auto; }
+        .nav-section-label { font-size: 10px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--text-muted); padding: 12px 10px 4px; }
+        .sidebar-nav a {
+            display: flex; align-items: center; padding: 10px 12px; border-radius: 8px; color: #9090a0;
+            text-decoration: none; font-size: 14px; font-weight: 500; margin-bottom: 2px; gap: 10px; transition: all 0.18s;
+        }
+        .sidebar-nav a:hover { background: var(--primary-faint); color: #fff; }
+        .sidebar-nav a.active { background: var(--primary-faint); color: var(--primary); font-weight: 600; }
+        .sidebar-nav a i { font-size: 16px; min-width: 20px; }
+        .sidebar-nav .badge-count {
+            margin-left: auto; background: var(--primary); color: #fff; border-radius: 20px;
+            padding: 1px 8px; font-size: 11px; font-weight: 700;
+        }
+        .sidebar-footer { padding: 14px 12px; border-top: 1px solid var(--border); }
+        .sidebar-footer .user-info { font-size: 12px; color: var(--text-muted); margin-bottom: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+        /* MAIN */
+        #mainWrap {
+            margin-left: var(--sidebar-w); flex: 1; display: flex; flex-direction: column;
+            overflow: hidden; transition: margin-left 0.28s ease;
+        }
+        #mainWrap.full { margin-left: 0; }
+        .topbar {
+            background: var(--bg-card); border-bottom: 1px solid var(--border); padding: 0 24px; height: 56px;
+            display: flex; align-items: center; position: sticky; top: 0; z-index: 100; gap: 12px;
+        }
+        .topbar .page-title { font-size: 15px; font-weight: 600; color: #fff; }
+        .topbar .sidebar-toggle { background: none; border: none; color: #aaa; font-size: 20px; cursor: pointer; padding: 4px; border-radius: 6px; }
+        .topbar .sidebar-toggle:hover { background: var(--border); color: #fff; }
+        #mainContent { flex: 1; overflow-y: auto; padding: 24px; }
+
+        /* ===== STAT CARDS ===== */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; margin-bottom: 28px; }
+        .stat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; transition: border-color 0.2s; }
+        .stat-card:hover { border-color: var(--primary); }
+        .stat-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 12px; }
+        .stat-number { font-size: 28px; font-weight: 700; font-family: 'Josefin Sans', sans-serif; color: var(--primary); line-height: 1; margin-bottom: 4px; }
+        .stat-label { font-size: 12px; color: var(--text-muted); }
+
+        /* ===== TABLES ===== */
+        .table-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 24px; }
+        .table-card-header { padding: 14px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+        .table-card-header h6 { margin: 0; font-weight: 600; color: #fff; font-size: 14px; }
+        .table-card table { margin: 0; }
+        .table-card thead th { background: #16161a; color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.6px; font-weight: 600; padding: 10px 16px; border-color: var(--border); }
+        .table-card tbody td { padding: 12px 16px; border-color: var(--border); color: #ccc; font-size: 13px; vertical-align: middle; }
+        .table-card tbody tr:hover td { background: rgba(255,255,255,0.02); }
+
+        /* Status badges */
+        .status-new { background: rgba(198,121,58,0.18); color: var(--primary); border: 1px solid rgba(198,121,58,0.4); font-size: 11px; font-weight: 700; padding: 2px 10px; border-radius: 20px; }
+        .status-viewed { background: rgba(255,255,255,0.04); color: #666; border: 1px solid var(--border); font-size: 11px; font-weight: 600; padding: 2px 10px; border-radius: 20px; }
+        .status-archived { background: rgba(220,53,69,0.1); color: #dc3545; border: 1px solid rgba(220,53,69,0.3); font-size: 11px; font-weight: 600; padding: 2px 10px; border-radius: 20px; }
+
+        /* ===== SECTIONS ===== */
+        .section { display: none; }
+        .section.active { display: block; }
+
+        /* ===== EMPTY / LOADING ===== */
+        .empty-state { text-align: center; padding: 50px 20px; color: var(--text-muted); }
+        .empty-state i { font-size: 40px; display: block; margin-bottom: 12px; }
+        .loading-row td { text-align: center; padding: 40px; color: var(--text-muted); }
+
+        /* ===== DETAIL MODAL ===== */
+        .detail-modal .modal-content { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; color: #e0e0e6; }
+        .detail-modal .modal-header { border-color: var(--border); }
+        .detail-modal .modal-footer { border-color: var(--border); }
+        .detail-pair { display: flex; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+        .detail-pair:last-child { border-bottom: none; }
+        .detail-pair .lbl { color: var(--text-muted); font-size: 12px; min-width: 150px; flex-shrink: 0; }
+        .detail-pair .val { font-size: 13px; color: #ddd; }
+        .detail-textarea { background: var(--bg-input); border-radius: 8px; padding: 12px; font-size: 13px; line-height: 1.6; color: #ccc; margin-top: 6px; }
+
+        /* ===== FILTER CHIPS ===== */
+        .filter-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+        .chip { padding: 5px 14px; border-radius: 20px; border: 1px solid var(--border); background: none; color: var(--text-muted); font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+        .chip:hover { border-color: var(--primary); color: var(--primary); }
+        .chip.active { background: var(--primary-faint); border-color: var(--primary); color: var(--primary); }
+
+        /* ===== ADD FORM CARD ===== */
+        .add-form-card {
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
+            padding: 24px; margin-bottom: 24px;
+        }
+        .add-form-card .form-control, .add-form-card .form-select {
+            background: var(--bg-input); border: 1px solid var(--border); color: #ddd; border-radius: 8px; font-size: 13px;
+        }
+        .add-form-card .form-control:focus, .add-form-card .form-select:focus {
+            background: var(--bg-input); border-color: var(--primary); color: #fff;
+            box-shadow: 0 0 0 3px rgba(198,121,58,0.12);
+        }
+        .add-form-card .form-control::placeholder { color: #555; }
+        .add-form-card label { color: var(--text-muted); font-size: 12px; font-weight: 600; margin-bottom: 4px; }
+
+        /* ===== TOAST ===== */
+        .toast-wrap { position: fixed; bottom: 24px; right: 24px; z-index: 9999; }
+        .app-toast { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; color: #ddd; min-width: 220px; font-size: 13px; }
+
+        /* ===== OVERLAY ===== */
+        #sidebarOverlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 190; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            #sidebar { transform: translateX(-100%); }
+            #sidebar.open { transform: translateX(0); }
+            #mainWrap { margin-left: 0 !important; }
+            #mainContent { padding: 12px; }
+            .stats-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+            .stat-card { padding: 14px; }
+            .stat-number { font-size: 22px; }
+            .stat-label { font-size: 11px; }
+            .stat-icon { width: 36px; height: 36px; font-size: 16px; margin-bottom: 8px; }
+            .topbar { padding: 0 12px; height: 48px; }
+            .topbar .page-title { font-size: 13px; }
+
+            /* Tables mobile */
+            .table-card thead th { font-size: 10px; padding: 8px 8px; white-space: nowrap; }
+            .table-card tbody td { font-size: 12px; padding: 8px 8px; }
+            .table-card-header { padding: 10px 12px; }
+            .table-card-header h6 { font-size: 12px; }
+
+            /* Filter chips */
+            .filter-chips { margin-bottom: 10px; }
+            .chip { padding: 4px 10px; font-size: 11px; }
+
+            /* Section headers */
+            .section > .d-flex > h5 { font-size: 16px; }
+
+            /* Forms */
+            .add-form-card { padding: 16px; }
+            .add-form-card label { font-size: 11px; }
+            .add-form-card .form-control, .add-form-card .form-select { font-size: 13px; padding: 6px 10px; }
+
+            /* Detail modal */
+            .detail-pair { flex-direction: column; gap: 2px; }
+            .detail-pair .lbl { min-width: unset; font-size: 11px; }
+            .detail-pair .val { font-size: 13px; }
+
+            /* Login box */
+            .login-box { padding: 24px 20px; margin: 0 16px; }
+        }
+        @media (max-width: 400px) {
+            .stats-grid { grid-template-columns: 1fr; }
+            #mainContent { padding: 8px; }
+            .add-form-card { padding: 12px; }
+        }
+
+        /* ===== CFG PREVIEWS ===== */
+        .cfg-prev { width:90px; height:55px; object-fit:cover; border-radius:8px; border:1px solid var(--border); }
+        .cfg-prev-sq { width:60px; height:60px; object-fit:cover; border-radius:8px; border:1px solid var(--border); }
+        .cfg-prev-sm { width:45px; height:45px; object-fit:cover; border-radius:50%; border:1px solid var(--border); }
+    </style>
+</head>
+
+<body>
+
+<!-- ==================== LOGIN SCREEN ==================== -->
+<div id="loginScreen">
+    <div class="login-box">
+        <div class="text-center mb-4">
+            <div class="brand">AFRO-AFRO</div>
+            <div class="sub">Espace Administration</div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label text-muted small fw-semibold">Email</label>
+            <input type="email" class="form-control py-2" id="loginEmail" placeholder="admin@email.com">
+        </div>
+        <div class="mb-3">
+            <label class="form-label text-muted small fw-semibold">Mot de passe</label>
+            <input type="password" class="form-control py-2" id="loginPassword" placeholder="••••••••">
+        </div>
+        <div id="loginError" class="alert alert-danger py-2 small d-none mb-3"></div>
+        <button class="btn btn-admin w-100 py-2" id="loginBtn">
+            <i class="bi bi-box-arrow-in-right me-2"></i>Se connecter
+        </button>
+        <div class="text-center mt-4">
+            <a href="index.html" class="small text-decoration-none" style="color: var(--text-muted);">← Retour au site</a>
+        </div>
+    </div>
+</div>
+
+
+<!-- ==================== DASHBOARD APP ==================== -->
+<div id="appShell" style="display:none;">
+
+    <div id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+    <!-- ===== SIDEBAR ===== -->
+    <nav id="sidebar">
+        <div class="sidebar-brand">
+            <div class="logo">AFRO-AFRO</div>
+            <div class="sub">Administration</div>
+        </div>
+
+        <div class="sidebar-nav">
+            <div class="nav-section-label">Général</div>
+            <a href="#" class="active" id="nav-dashboard" onclick="showSection('dashboard');return false;">
+                <i class="bi bi-grid-1x2"></i> Tableau de bord
+            </a>
+
+            <div class="nav-section-label">Demandes reçues</div>
+            <a href="#" id="nav-modeles" onclick="showSection('modeles');return false;">
+                <i class="bi bi-person-badge"></i> Devenir Modèle
+                <span class="badge-count d-none" id="badgeModele">0</span>
+            </a>
+            <a href="#" id="nav-collabs" onclick="showSection('collaborations');return false;">
+                <i class="bi bi-briefcase"></i> Collaborations
+                <span class="badge-count d-none" id="badgeCollab">0</span>
+            </a>
+
+            <div class="nav-section-label">Gestion</div>
+            <a href="#" id="nav-contacts" onclick="showSection('contacts');return false;">
+                <i class="bi bi-person-plus"></i> Contacts
+            </a>
+            <a href="#" id="nav-campagnes" onclick="showSection('campagnes');return false;">
+                <i class="bi bi-megaphone"></i> Campagnes
+            </a>
+
+            <div class="nav-section-label">Personnalisation</div>
+            <a href="#" id="nav-personnalisation" onclick="showSection('personnalisation');return false;">
+                <i class="bi bi-palette"></i> Apparence du site
+            </a>
+
+            <div class="nav-section-label">Site</div>
+            <a href="index.html" target="_blank">
+                <i class="bi bi-globe"></i> Voir le site
+            </a>
+        </div>
+
+        <div class="sidebar-footer">
+            <div class="user-info" id="sidebarUser">—</div>
+            <button class="btn btn-sm w-100" onclick="doLogout()"
+                style="background: rgba(220,53,69,0.12); border: 1px solid rgba(220,53,69,0.3); color: #dc3545; border-radius:8px;">
+                <i class="bi bi-box-arrow-right me-1"></i>Déconnexion
+            </button>
+        </div>
+    </nav>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <div id="mainWrap">
+
+        <div class="topbar">
+            <button class="sidebar-toggle" onclick="toggleSidebar()"><i class="bi bi-list"></i></button>
+            <span class="page-title" id="topbarTitle">Tableau de bord</span>
+        </div>
+
+        <div id="mainContent">
+
+            <!-- ===== SECTION DASHBOARD ===== -->
+            <div id="section-dashboard" class="section active">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background:var(--primary-faint);"><i class="bi bi-person-badge" style="color:var(--primary);"></i></div>
+                        <div class="stat-number" id="statModeles">—</div>
+                        <div class="stat-label">Demandes Modèle</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background:rgba(13,110,253,0.12);"><i class="bi bi-briefcase" style="color:#4d94ff;"></i></div>
+                        <div class="stat-number" id="statCollabs">—</div>
+                        <div class="stat-label">Collaborations</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background:rgba(25,135,84,0.12);"><i class="bi bi-person-plus" style="color:#25a565;"></i></div>
+                        <div class="stat-number" id="statContacts">—</div>
+                        <div class="stat-label">Contacts</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background:rgba(156,39,176,0.12);"><i class="bi bi-megaphone" style="color:#ba68c8;"></i></div>
+                        <div class="stat-number" id="statCampagnes">—</div>
+                        <div class="stat-label">Campagnes</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background:rgba(255,193,7,0.12);"><i class="bi bi-bell" style="color:#ffc107;"></i></div>
+                        <div class="stat-number" id="statNew">—</div>
+                        <div class="stat-label">Nouvelles demandes</div>
+                    </div>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-lg-6">
+                        <div class="table-card">
+                            <div class="table-card-header">
+                                <h6><i class="bi bi-person-badge me-2" style="color:var(--primary);"></i>Dernières candidatures Modèle</h6>
+                                <a href="#" onclick="showSection('modeles');return false;" class="small text-decoration-none" style="color:var(--text-muted);">Voir tout →</a>
+                            </div>
+                            <div id="recentModeles"><div class="empty-state"><i class="bi bi-hourglass-split"></i>Chargement...</div></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="table-card">
+                            <div class="table-card-header">
+                                <h6><i class="bi bi-briefcase me-2" style="color:#4d94ff;"></i>Dernières Collaborations</h6>
+                                <a href="#" onclick="showSection('collaborations');return false;" class="small text-decoration-none" style="color:var(--text-muted);">Voir tout →</a>
+                            </div>
+                            <div id="recentCollabs"><div class="empty-state"><i class="bi bi-hourglass-split"></i>Chargement...</div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== SECTION MODÈLES ===== -->
+            <div id="section-modeles" class="section">
+                <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                    <h5 class="mb-0 text-white"><i class="bi bi-person-badge me-2" style="color:var(--primary);"></i>Candidatures Modèle</h5>
+                    <button class="btn btn-sm" onclick="loadModeles()" style="background:var(--bg-input); border:1px solid var(--border); color:#aaa; border-radius:8px;">
+                        <i class="bi bi-arrow-clockwise me-1"></i>Actualiser
+                    </button>
+                </div>
+                <div class="filter-chips">
+                    <button class="chip active" id="chipModeleAll" onclick="filterModeles('all')">Toutes</button>
+                    <button class="chip" id="chipModeleNew" onclick="filterModeles('new')">Nouvelles</button>
+                    <button class="chip" id="chipModeleViewed" onclick="filterModeles('viewed')">Vues</button>
+                </div>
+                <div class="table-card">
+                    <div class="table-responsive">
+                        <table class="table mb-0" style="color:#ccc;">
+                            <thead><tr><th>Nom</th><th>Téléphone</th><th>Âge</th><th>Ville</th><th>Expérience</th><th>Date</th><th>Statut</th><th></th></tr></thead>
+                            <tbody id="modelesBody"><tr class="loading-row"><td colspan="8"><i class="bi bi-hourglass-split me-2"></i>Chargement...</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== SECTION COLLABORATIONS ===== -->
+            <div id="section-collaborations" class="section">
+                <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                    <h5 class="mb-0 text-white"><i class="bi bi-briefcase me-2" style="color:#4d94ff;"></i>Demandes de Collaboration</h5>
+                    <button class="btn btn-sm" onclick="loadCollaborations()" style="background:var(--bg-input); border:1px solid var(--border); color:#aaa; border-radius:8px;">
+                        <i class="bi bi-arrow-clockwise me-1"></i>Actualiser
+                    </button>
+                </div>
+                <div class="filter-chips">
+                    <button class="chip active" id="chipCollabAll" onclick="filterCollabs('all')">Toutes</button>
+                    <button class="chip" id="chipCollabNew" onclick="filterCollabs('new')">Nouvelles</button>
+                    <button class="chip" id="chipCollabViewed" onclick="filterCollabs('viewed')">Vues</button>
+                </div>
+                <div class="table-card">
+                    <div class="table-responsive">
+                        <table class="table mb-0" style="color:#ccc;">
+                            <thead><tr><th>Nom</th><th>Entreprise</th><th>Téléphone</th><th>Type</th><th>Date</th><th>Statut</th><th></th></tr></thead>
+                            <tbody id="collabsBody"><tr class="loading-row"><td colspan="7"><i class="bi bi-hourglass-split me-2"></i>Chargement...</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== SECTION CONTACTS (Ajout par admin) ===== -->
+            <div id="section-contacts" class="section">
+                <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                    <h5 class="mb-0 text-white"><i class="bi bi-person-plus me-2" style="color:#25a565;"></i>Gestion des Contacts</h5>
+                    <button class="btn btn-sm" onclick="loadContacts()" style="background:var(--bg-input); border:1px solid var(--border); color:#aaa; border-radius:8px;">
+                        <i class="bi bi-arrow-clockwise me-1"></i>Actualiser
+                    </button>
+                </div>
+
+                <!-- Formulaire d'ajout Contact -->
+                <div class="add-form-card">
+                    <h6 class="text-white mb-3"><i class="bi bi-plus-circle me-2" style="color:#25a565;"></i>Ajouter un contact</h6>
+                    <form id="addContactForm" onsubmit="addContact(event)">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label>Nom complet *</label>
+                                <input type="text" class="form-control" id="ct_nom" placeholder="Prénom & Nom" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Téléphone *</label>
+                                <input type="tel" class="form-control" id="ct_telephone" placeholder="+261 xx xxx xxxx" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Email</label>
+                                <input type="email" class="form-control" id="ct_email" placeholder="email@exemple.com">
+                            </div>
+                            <div class="col-md-6">
+                                <label>Ville / Adresse</label>
+                                <input type="text" class="form-control" id="ct_adresse" placeholder="Antananarivo...">
+                            </div>
+                            <div class="col-md-6">
+                                <label>Catégorie *</label>
+                                <select class="form-select" id="ct_categorie" required>
+                                    <option value="" disabled selected></option>
+                                    <option value="Modèle">Modèle</option>
+                                    <option value="Photographe">Photographe</option>
+                                    <option value="Maquilleur(se)">Maquilleur(se)</option>
+                                    <option value="Styliste">Styliste</option>
+                                    <option value="Coiffeur(se)">Coiffeur(se)</option>
+                                    <option value="Créateur de mode">Créateur de mode</option>
+                                    <option value="Partenaire">Partenaire</option>
+                                    <option value="Autre">Autre</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Notes</label>
+                                <input type="text" class="form-control" id="ct_notes" placeholder="Notes (optionnel)">
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-admin px-4 py-2" id="addContactBtn">
+                                    <i class="bi bi-plus-lg me-2"></i>Ajouter le contact
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Liste des contacts -->
+                <div class="table-card">
+                    <div class="table-card-header">
+                        <h6>Liste des contacts (<span id="contactsCount">0</span>)</h6>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table mb-0" style="color:#ccc;">
+                            <thead><tr><th>Nom</th><th>Téléphone</th><th>Email</th><th>Catégorie</th><th>Ville</th><th>Ajouté le</th><th></th></tr></thead>
+                            <tbody id="contactsBody"><tr class="loading-row"><td colspan="7"><i class="bi bi-hourglass-split me-2"></i>Chargement...</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== SECTION CAMPAGNES (Ajout par admin) ===== -->
+            <div id="section-campagnes" class="section">
+                <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                    <h5 class="mb-0 text-white"><i class="bi bi-megaphone me-2" style="color:#ba68c8;"></i>Gestion des Campagnes</h5>
+                    <button class="btn btn-sm" onclick="loadCampagnes()" style="background:var(--bg-input); border:1px solid var(--border); color:#aaa; border-radius:8px;">
+                        <i class="bi bi-arrow-clockwise me-1"></i>Actualiser
+                    </button>
+                </div>
+
+                <!-- Formulaire d'ajout Campagne -->
+                <div class="add-form-card">
+                    <h6 class="text-white mb-3"><i class="bi bi-plus-circle me-2" style="color:#ba68c8;"></i>Ajouter une campagne de collaboration</h6>
+                    <form id="addCampagneForm" onsubmit="addCampagne(event)">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label>Nom du contact *</label>
+                                <input type="text" class="form-control" id="cp_nom" placeholder="Prénom & Nom" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Entreprise / Marque *</label>
+                                <input type="text" class="form-control" id="cp_entreprise" placeholder="Nom de l'entreprise" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Téléphone *</label>
+                                <input type="tel" class="form-control" id="cp_telephone" placeholder="+261 xx xxx xxxx" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Email</label>
+                                <input type="email" class="form-control" id="cp_email" placeholder="email@exemple.com">
+                            </div>
+                            <div class="col-md-6">
+                                <label>Type de collaboration *</label>
+                                <select class="form-select" id="cp_type" required>
+                                    <option value="" disabled selected></option>
+                                    <option value="Shooting photo">Shooting photo</option>
+                                    <option value="Défilé de mode">Défilé de mode</option>
+                                    <option value="Promotion de produit">Promotion de produit</option>
+                                    <option value="Événement">Événement</option>
+                                    <option value="Création de contenu">Création de contenu</option>
+                                    <option value="Publicité">Publicité</option>
+                                    <option value="Autre">Autre</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Statut</label>
+                                <select class="form-select" id="cp_statut">
+                                    <option value="En cours">En cours</option>
+                                    <option value="Planifiée">Planifiée</option>
+                                    <option value="Terminée">Terminée</option>
+                                    <option value="Annulée">Annulée</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Date de la campagne</label>
+                                <input type="date" class="form-control" id="cp_date">
+                            </div>
+                            <div class="col-md-6">
+                                <label>Budget</label>
+                                <input type="text" class="form-control" id="cp_budget" placeholder="ex: 200 000 Ar">
+                            </div>
+                            <div class="col-12">
+                                <label>Description</label>
+                                <textarea class="form-control" id="cp_description" rows="2" placeholder="Détails sur cette campagne..."></textarea>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn px-4 py-2" id="addCampagneBtn"
+                                    style="background:#9c27b0; border:none; color:#fff; font-weight:600; border-radius:8px;">
+                                    <i class="bi bi-plus-lg me-2"></i>Ajouter la campagne
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Liste des campagnes -->
+                <div class="table-card">
+                    <div class="table-card-header">
+                        <h6>Campagnes de collaboration (<span id="campagnesCount">0</span>)</h6>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table mb-0" style="color:#ccc;">
+                            <thead><tr><th>Nom</th><th>Entreprise</th><th>Téléphone</th><th>Type</th><th>Date</th><th>Statut</th><th></th></tr></thead>
+                            <tbody id="campagnesBody"><tr class="loading-row"><td colspan="7"><i class="bi bi-hourglass-split me-2"></i>Chargement...</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== SECTION PERSONNALISATION (COMPLÈTE) ===== -->
+            <div id="section-personnalisation" class="section">
+                <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+                    <h5 class="mb-0 text-white"><i class="bi bi-palette me-2" style="color:#e91e63;"></i>Personnalisation du site</h5>
+                    <button class="btn btn-admin px-4" onclick="saveConfig()" id="saveConfigBtn">
+                        <i class="bi bi-check-lg me-2"></i>Enregistrer tout
+                    </button>
+                </div>
+
+                <!-- 1. CAROUSEL -->
+                <div class="add-form-card mb-3">
+                    <h6 class="text-white mb-0" data-bs-toggle="collapse" data-bs-target="#acc1" style="cursor:pointer;"><i class="bi bi-images me-2" style="color:var(--primary);"></i>Carousel d'accueil <i class="bi bi-chevron-down float-end small"></i></h6>
+                    <div id="acc1" class="collapse mt-3">
+                        <div class="row g-3">
+                            <div class="col-md-6"><label>Image slide 1</label><div class="d-flex align-items-center gap-3 mt-1"><img id="prev_carousel_img1" src="img/carousel-1.jpg" class="cfg-prev"><input type="file" class="form-control form-control-sm" id="file_carousel_img1" accept="image/*" onchange="previewImg(this,'prev_carousel_img1')"></div></div>
+                            <div class="col-md-6"><label>Image slide 2</label><div class="d-flex align-items-center gap-3 mt-1"><img id="prev_carousel_img2" src="img/carousel-2.jpg" class="cfg-prev"><input type="file" class="form-control form-control-sm" id="file_carousel_img2" accept="image/*" onchange="previewImg(this,'prev_carousel_img2')"></div></div>
+                            <div class="col-md-6"><label>Titre slide 1</label><input type="text" class="form-control cfg-text" data-key="carousel_title1" placeholder="AFRO - AFRO Agency"></div>
+                            <div class="col-md-6"><label>Sous-titre slide 1</label><input type="text" class="form-control cfg-text" data-key="carousel_sub1" placeholder="Audace Fierté Rayonnement..."></div>
+                            <div class="col-md-6"><label>Titre slide 2</label><input type="text" class="form-control cfg-text" data-key="carousel_title2" placeholder="AFRO - AFRO Agency"></div>
+                            <div class="col-md-6"><label>Sous-titre slide 2</label><input type="text" class="form-control cfg-text" data-key="carousel_sub2" placeholder="Agence de mannequins..."></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. ABOUT -->
+                <div class="add-form-card mb-3">
+                    <h6 class="text-white mb-0" data-bs-toggle="collapse" data-bs-target="#acc2" style="cursor:pointer;"><i class="bi bi-file-text me-2" style="color:#4d94ff;"></i>Section À Propos <i class="bi bi-chevron-down float-end small"></i></h6>
+                    <div id="acc2" class="collapse mt-3">
+                        <p class="text-muted small mb-2">Bloc 1 — Celinah Niri (Fondatrice)</p>
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6"><label>Titre</label><input type="text" class="form-control cfg-text" data-key="about_title" placeholder="À PROPOS DE NOTRE AGENCE"></div>
+                            <div class="col-md-6"><label>Image (Fondatrice)</label><div class="d-flex align-items-center gap-3 mt-1"><img id="prev_about_img" src="img/about-1-1.webp" class="cfg-prev-sq"><input type="file" class="form-control form-control-sm" id="file_about_img" accept="image/*" onchange="previewImg(this,'prev_about_img')"></div></div>
+                            <div class="col-12"><label>Description</label><textarea class="form-control cfg-text" data-key="about_text" rows="4" placeholder="Bienvenue sur notre univers..."></textarea></div>
+                        </div>
+                        <hr style="border-color:var(--border);">
+                        <p class="text-muted small mb-2">Bloc 2 — BMS (Ambassadrice)</p>
+                        <div class="row g-3">
+                            <div class="col-md-6"><label>Image (Ambassadrice)</label><div class="d-flex align-items-center gap-3 mt-1"><img id="prev_about2_img" src="img/about2.webp" class="cfg-prev-sq"><input type="file" class="form-control form-control-sm" id="file_about2_img" accept="image/*" onchange="previewImg(this,'prev_about2_img')"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. SERVICES -->
+                <div class="add-form-card mb-3">
+                    <h6 class="text-white mb-0" data-bs-toggle="collapse" data-bs-target="#acc3" style="cursor:pointer;"><i class="bi bi-gear me-2" style="color:#ffc107;"></i>Section Services (4 services) <i class="bi bi-chevron-down float-end small"></i></h6>
+                    <div id="acc3" class="collapse mt-3">
+                        <div class="row g-3"><div class="col-md-6"><label>Titre de la section</label><input type="text" class="form-control cfg-text" data-key="services_title" placeholder="Ouverte à toute collaboration"></div></div>
+                        <hr style="border-color:var(--border);">
+                        <p class="text-muted small mb-2">Service 1</p>
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-4"><label>Titre</label><input type="text" class="form-control cfg-text" data-key="svc1_title" placeholder="Défilés de mode"></div>
+                            <div class="col-md-4"><label>Image</label><div class="d-flex align-items-center gap-2 mt-1"><img id="prev_svc1_img" src="img/service-1.jpg" class="cfg-prev-sm"><input type="file" class="form-control form-control-sm" id="file_svc1_img" accept="image/*" onchange="previewImg(this,'prev_svc1_img')"></div></div>
+                            <div class="col-12"><label>Description</label><textarea class="form-control cfg-text" data-key="svc1_text" rows="2"></textarea></div>
+                        </div>
+                        <p class="text-muted small mb-2">Service 2</p>
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-4"><label>Titre</label><input type="text" class="form-control cfg-text" data-key="svc2_title" placeholder="Événements d'entreprise"></div>
+                            <div class="col-md-4"><label>Image</label><div class="d-flex align-items-center gap-2 mt-1"><img id="prev_svc2_img" src="img/service-2.jpg" class="cfg-prev-sm"><input type="file" class="form-control form-control-sm" id="file_svc2_img" accept="image/*" onchange="previewImg(this,'prev_svc2_img')"></div></div>
+                            <div class="col-12"><label>Description</label><textarea class="form-control cfg-text" data-key="svc2_text" rows="2"></textarea></div>
+                        </div>
+                        <p class="text-muted small mb-2">Service 3</p>
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-4"><label>Titre</label><input type="text" class="form-control cfg-text" data-key="svc3_title" placeholder="Shooting"></div>
+                            <div class="col-md-4"><label>Image</label><div class="d-flex align-items-center gap-2 mt-1"><img id="prev_svc3_img" src="img/service-3.jpg" class="cfg-prev-sm"><input type="file" class="form-control form-control-sm" id="file_svc3_img" accept="image/*" onchange="previewImg(this,'prev_svc3_img')"></div></div>
+                            <div class="col-12"><label>Description</label><textarea class="form-control cfg-text" data-key="svc3_text" rows="2"></textarea></div>
+                        </div>
+                        <p class="text-muted small mb-2">Service 4</p>
+                        <div class="row g-3">
+                            <div class="col-md-4"><label>Titre</label><input type="text" class="form-control cfg-text" data-key="svc4_title" placeholder="Mannequinat professionnel"></div>
+                            <div class="col-md-4"><label>Image</label><div class="d-flex align-items-center gap-2 mt-1"><img id="prev_svc4_img" src="img/service-4.jpg" class="cfg-prev-sm"><input type="file" class="form-control form-control-sm" id="file_svc4_img" accept="image/*" onchange="previewImg(this,'prev_svc4_img')"></div></div>
+                            <div class="col-12"><label>Description</label><textarea class="form-control cfg-text" data-key="svc4_text" rows="2"></textarea></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. BANNER -->
+                <div class="add-form-card mb-3">
+                    <h6 class="text-white mb-0" data-bs-toggle="collapse" data-bs-target="#acc4" style="cursor:pointer;"><i class="bi bi-megaphone me-2" style="color:#ba68c8;"></i>Section Casting / Bannière <i class="bi bi-chevron-down float-end small"></i></h6>
+                    <div id="acc4" class="collapse mt-3">
+                        <div class="row g-3">
+                            <div class="col-md-6"><label>Titre</label><input type="text" class="form-control cfg-text" data-key="banner_title" placeholder="Envie de devenir Modèle ?"></div>
+                            <div class="col-12"><label>Description</label><textarea class="form-control cfg-text" data-key="banner_text" rows="3"></textarea></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. TÉMOIGNAGES -->
+                <div class="add-form-card mb-3">
+                    <h6 class="text-white mb-0" data-bs-toggle="collapse" data-bs-target="#acc5" style="cursor:pointer;"><i class="bi bi-chat-quote me-2" style="color:#00bcd4;"></i>Section Témoignages (3) <i class="bi bi-chevron-down float-end small"></i></h6>
+                    <div id="acc5" class="collapse mt-3">
+                        <div class="row g-3"><div class="col-md-6"><label>Titre de la section</label><input type="text" class="form-control cfg-text" data-key="testimonials_title" placeholder="Ce que disent nos collaborateurs"></div></div>
+                        <hr style="border-color:var(--border);">
+                        <p class="text-muted small mb-2">Témoignage 1</p>
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-4"><label>Nom</label><input type="text" class="form-control cfg-text" data-key="testi1_name" placeholder="VASELIPS"></div>
+                            <div class="col-md-4"><label>Rôle</label><input type="text" class="form-control cfg-text" data-key="testi1_role" placeholder="Rouge à lèvres"></div>
+                            <div class="col-md-4"><label>Image</label><div class="d-flex align-items-center gap-2 mt-1"><img id="prev_testi1_img" src="img/testimonial-1.jpg" class="cfg-prev-sm"><input type="file" class="form-control form-control-sm" id="file_testi1_img" accept="image/*" onchange="previewImg(this,'prev_testi1_img')"></div></div>
+                            <div class="col-12"><label>Texte</label><textarea class="form-control cfg-text" data-key="testi1_text" rows="2"></textarea></div>
+                        </div>
+                        <p class="text-muted small mb-2">Témoignage 2</p>
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-4"><label>Nom</label><input type="text" class="form-control cfg-text" data-key="testi2_name" placeholder="O'Studio"></div>
+                            <div class="col-md-4"><label>Rôle</label><input type="text" class="form-control cfg-text" data-key="testi2_role" placeholder="Photographe"></div>
+                            <div class="col-md-4"><label>Image</label><div class="d-flex align-items-center gap-2 mt-1"><img id="prev_testi2_img" src="img/testimonial-2.jpg" class="cfg-prev-sm"><input type="file" class="form-control form-control-sm" id="file_testi2_img" accept="image/*" onchange="previewImg(this,'prev_testi2_img')"></div></div>
+                            <div class="col-12"><label>Texte</label><textarea class="form-control cfg-text" data-key="testi2_text" rows="2"></textarea></div>
+                        </div>
+                        <p class="text-muted small mb-2">Témoignage 3</p>
+                        <div class="row g-3">
+                            <div class="col-md-4"><label>Nom</label><input type="text" class="form-control cfg-text" data-key="testi3_name" placeholder="Ngita Ka Manja"></div>
+                            <div class="col-md-4"><label>Rôle</label><input type="text" class="form-control cfg-text" data-key="testi3_role" placeholder="Agence"></div>
+                            <div class="col-md-4"><label>Image</label><div class="d-flex align-items-center gap-2 mt-1"><img id="prev_testi3_img" src="img/testimonial-3.jpg" class="cfg-prev-sm"><input type="file" class="form-control form-control-sm" id="file_testi3_img" accept="image/*" onchange="previewImg(this,'prev_testi3_img')"></div></div>
+                            <div class="col-12"><label>Texte</label><textarea class="form-control cfg-text" data-key="testi3_text" rows="2"></textarea></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6. CONTACT -->
+                <div class="add-form-card mb-3">
+                    <h6 class="text-white mb-0" data-bs-toggle="collapse" data-bs-target="#acc6" style="cursor:pointer;"><i class="bi bi-telephone me-2" style="color:#25a565;"></i>Informations de contact <i class="bi bi-chevron-down float-end small"></i></h6>
+                    <div id="acc6" class="collapse mt-3">
+                        <div class="row g-3">
+                            <div class="col-md-4"><label>Téléphone</label><input type="text" class="form-control cfg-text" data-key="contact_phone" placeholder="+261 38 79 31 629"></div>
+                            <div class="col-md-4"><label>Email</label><input type="email" class="form-control cfg-text" data-key="contact_email" placeholder="benahyharitina@gmail.com"></div>
+                            <div class="col-md-4"><label>Adresse</label><input type="text" class="form-control cfg-text" data-key="contact_address" placeholder="Ambohipo, Antananarivo"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 7. RÉSEAUX SOCIAUX -->
+                <div class="add-form-card mb-3">
+                    <h6 class="text-white mb-0" data-bs-toggle="collapse" data-bs-target="#acc7" style="cursor:pointer;"><i class="bi bi-share me-2" style="color:#e91e63;"></i>Réseaux sociaux <i class="bi bi-chevron-down float-end small"></i></h6>
+                    <div id="acc7" class="collapse mt-3">
+                        <div class="row g-3">
+                            <div class="col-md-6"><label>Facebook (URL)</label><input type="url" class="form-control cfg-text" data-key="social_facebook" placeholder="https://facebook.com/..."></div>
+                            <div class="col-md-6"><label>Instagram (URL)</label><input type="url" class="form-control cfg-text" data-key="social_instagram" placeholder="https://instagram.com/..."></div>
+                            <div class="col-md-6"><label>YouTube (URL)</label><input type="url" class="form-control cfg-text" data-key="social_youtube" placeholder="https://youtube.com/..."></div>
+                            <div class="col-md-6"><label>LinkedIn (URL)</label><input type="url" class="form-control cfg-text" data-key="social_linkedin" placeholder="https://linkedin.com/..."></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 8. PAGE MODÈLES (8 mannequins) -->
+                <div class="add-form-card mb-3">
+                    <h6 class="text-white mb-0" data-bs-toggle="collapse" data-bs-target="#acc9" style="cursor:pointer;"><i class="bi bi-people me-2" style="color:var(--primary);"></i>Page Modèles (8 mannequins) <i class="bi bi-chevron-down float-end small"></i></h6>
+                    <div id="acc9" class="collapse mt-3">
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6 col-lg-3">
+                                <label>1. BMS</label>
+                                <div class="d-flex align-items-center gap-2 mt-1"><img id="prev_model1_img" src="img/team-1.jpg" class="cfg-prev-sm"><input type="file" class="form-control form-control-sm" id="file_model1_img" accept="image/*" onchange="previewImg(this,'prev_model1_img')"></div>
+                                <input type="text" class="form-control form-control-sm mt-2 cfg-text" data-key="model1_name" placeholder="BMS">
+                            </div>
+                            <div class="col-md-6 col-lg-3">
+                                <label>2. LUCETTE</label>
+                                <div class="d-flex align-items-center gap-2 mt-1"><img id="prev_model2_img" src="img/team-2.jpg" class="cfg-prev-sm"><input type="file" class="form-control form-control-sm" id="file_model2_img" accept="image/*" onchange="previewImg(this,'prev_model2_img')"></div>
+                                <input type="text" class="form-control form-control-sm mt-2 cfg-text" data-key="model2_name" placeholder="LUCETTE">
+                            </div>
+                            <div class="col-md-6 col-lg-3">
+                                <label>3. ANICETTE</label>
+                                <div class="d-flex align-items-center gap-2 mt-1"><img id="prev_model3_img" src="img/team-3.jpg" class="cfg-prev-sm"><input type="file" class="form-control form-control-sm" id="file_model3_img" accept="image/*" onchange="previewImg(this,'prev_model3_img')"></div>
+                                <input type="text" class="form-control form-control-sm mt-2 cfg-text" data-key="model3_name" placeholder="ANICETTE">
+                            </div>
+                            <div class="col-md-6 col-lg-3">
+                                <label>4. ANI</label>
+                                <div class="d-flex align-items-center gap-2 mt-1"><img id="prev_model4_img" src="img/team-4.jpg" class="cfg-prev-sm"><input type="file" class="form-control form-control-sm" id="file_model4_img" accept="image/*" onchange="previewImg(this,'prev_model4_img')"></div>
+                                <input type="text" class="form-control form-control-sm mt-2 cfg-text" data-key="model4_name" placeholder="ANI">
+                            </div>
+                            <div class="col-md-6 col-lg-3">
+                                <label>5. MURIELLE</label>
+                                <div class="d-flex align-items-center gap-2 mt-1"><img id="prev_model5_img" src="img/team-5.jpg" class="cfg-prev-sm"><input type="file" class="form-control form-control-sm" id="file_model5_img" accept="image/*" onchange="previewImg(this,'prev_model5_img')"></div>
+                                <input type="text" class="form-control form-control-sm mt-2 cfg-text" data-key="model5_name" placeholder="MURIELLE">
+                            </div>
+                            <div class="col-md-6 col-lg-3">
+                                <label>6. DANI</label>
+                                <div class="d-flex align-items-center gap-2 mt-1"><img id="prev_model6_img" src="img/team-6.jpg" class="cfg-prev-sm"><input type="file" class="form-control form-control-sm" id="file_model6_img" accept="image/*" onchange="previewImg(this,'prev_model6_img')"></div>
+                                <input type="text" class="form-control form-control-sm mt-2 cfg-text" data-key="model6_name" placeholder="DANI">
+                            </div>
+                            <div class="col-md-6 col-lg-3">
+                                <label>7. JOANNA</label>
+                                <div class="d-flex align-items-center gap-2 mt-1"><img id="prev_model7_img" src="img/team-7.jpg" class="cfg-prev-sm"><input type="file" class="form-control form-control-sm" id="file_model7_img" accept="image/*" onchange="previewImg(this,'prev_model7_img')"></div>
+                                <input type="text" class="form-control form-control-sm mt-2 cfg-text" data-key="model7_name" placeholder="JOANNA">
+                            </div>
+                            <div class="col-md-6 col-lg-3">
+                                <label>8. ANNI</label>
+                                <div class="d-flex align-items-center gap-2 mt-1"><img id="prev_model8_img" src="img/team-8.jpg" class="cfg-prev-sm"><input type="file" class="form-control form-control-sm" id="file_model8_img" accept="image/*" onchange="previewImg(this,'prev_model8_img')"></div>
+                                <input type="text" class="form-control form-control-sm mt-2 cfg-text" data-key="model8_name" placeholder="ANNI">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 9. VISIBILITÉ -->
+                <div class="add-form-card mb-3">
+                    <h6 class="text-white mb-0" data-bs-toggle="collapse" data-bs-target="#acc8" style="cursor:pointer;"><i class="bi bi-eye me-2" style="color:#8899aa;"></i>Afficher / Masquer les sections <i class="bi bi-chevron-down float-end small"></i></h6>
+                    <div id="acc8" class="collapse mt-3">
+                        <p class="text-muted small mb-3">Désactivez pour masquer sur le site public</p>
+                        <div class="row g-3">
+                            <div class="col-6 col-lg-3"><div class="form-check form-switch"><input class="form-check-input cfg-toggle" type="checkbox" data-key="show_about" checked><label class="form-check-label text-light">À Propos</label></div></div>
+                            <div class="col-6 col-lg-3"><div class="form-check form-switch"><input class="form-check-input cfg-toggle" type="checkbox" data-key="show_services" checked><label class="form-check-label text-light">Services</label></div></div>
+                            <div class="col-6 col-lg-3"><div class="form-check form-switch"><input class="form-check-input cfg-toggle" type="checkbox" data-key="show_banner" checked><label class="form-check-label text-light">Casting</label></div></div>
+                            <div class="col-6 col-lg-3"><div class="form-check form-switch"><input class="form-check-input cfg-toggle" type="checkbox" data-key="show_models" checked><label class="form-check-label text-light">Modèles</label></div></div>
+                            <div class="col-6 col-lg-3"><div class="form-check form-switch"><input class="form-check-input cfg-toggle" type="checkbox" data-key="show_testimonials" checked><label class="form-check-label text-light">Témoignages</label></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-end mt-4">
+                    <button class="btn btn-admin px-5 py-2" onclick="saveConfig()"><i class="bi bi-check-lg me-2"></i>Enregistrer toutes les modifications</button>
+                </div>
+            </div>
+
+        </div><!-- /mainContent -->
+    </div><!-- /mainWrap -->
+</div><!-- /appShell -->
+
+
+<!-- ===== MODAL DÉTAIL ===== -->
+<div class="modal fade detail-modal" id="detailModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-white" id="detailTitle">Détail</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="detailBody"></div>
+            <div class="modal-footer gap-2">
+                <button class="btn btn-sm" id="detailMarkViewedBtn" style="background:rgba(25,135,84,0.15); border:1px solid rgba(25,135,84,0.4); color:#25a565; border-radius:8px;">
+                    <i class="bi bi-check2 me-1"></i>Marquer comme vue
+                </button>
+                <button class="btn btn-sm" id="detailDeleteBtn" style="background:rgba(220,53,69,0.1); border:1px solid rgba(220,53,69,0.3); color:#dc3545; border-radius:8px;">
+                    <i class="bi bi-trash me-1"></i>Supprimer
+                </button>
+                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Fermer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Toast -->
+<div class="toast-wrap">
+    <div id="appToast" class="toast app-toast" role="alert" aria-live="assertive">
+        <div class="toast-body d-flex align-items-center gap-2" id="toastBody">
+            <i class="bi bi-check-circle-fill text-success"></i>
+            <span id="toastMsg"></span>
+        </div>
+    </div>
+</div>
+
+
+<!-- ===== SCRIPTS ===== -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+<script src="js/firebase-config.js"></script>
+
+<script>
+// ============================================================
+// AFRO-AFRO Admin Dashboard JS
+// ============================================================
+"use strict";
+
+let _modeles = [], _collabs = [], _contacts = [], _campagnes = [];
+let _detailType = null, _detailId = null, _detailCollection = null;
+let _mFilter = "all", _cFilter = "all";
+
+// ---- AUTH ----
+auth.onAuthStateChanged(function (user) {
+    if (user && user.email === ADMIN_EMAIL) {
+        document.getElementById("loginScreen").style.display = "none";
+        document.getElementById("appShell").style.display    = "flex";
+        document.getElementById("sidebarUser").textContent   = user.email;
+        loadDashboard();
+    } else {
+        document.getElementById("loginScreen").style.display = "flex";
+        document.getElementById("appShell").style.display    = "none";
+    }
+});
+
+document.getElementById("loginBtn").addEventListener("click", doLogin);
+document.getElementById("loginPassword").addEventListener("keypress", function (e) { if (e.key === "Enter") doLogin(); });
+
+function doLogin() {
+    var email = document.getElementById("loginEmail").value.trim();
+    var password = document.getElementById("loginPassword").value;
+    var errDiv = document.getElementById("loginError");
+    var btn = document.getElementById("loginBtn");
+    if (!email || !password) { errDiv.textContent = "Veuillez remplir email et mot de passe."; errDiv.classList.remove("d-none"); return; }
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Connexion...';
+    errDiv.classList.add("d-none");
+    auth.signInWithEmailAndPassword(email, password)
+        .then(function (cred) {
+            if (cred.user.email !== ADMIN_EMAIL) { auth.signOut(); errDiv.textContent = "Accès non autorisé."; errDiv.classList.remove("d-none"); resetLoginBtn(); }
+        })
+        .catch(function (error) {
+            var msg = "Email ou mot de passe incorrect.";
+            if (error.code === "auth/user-not-found") msg = "Aucun compte avec cet email.";
+            if (error.code === "auth/too-many-requests") msg = "Trop de tentatives. Réessayez plus tard.";
+            errDiv.textContent = msg; errDiv.classList.remove("d-none"); resetLoginBtn();
+        });
+}
+function resetLoginBtn() { var b = document.getElementById("loginBtn"); b.disabled = false; b.innerHTML = '<i class="bi bi-box-arrow-in-right me-2"></i>Se connecter'; }
+function doLogout() { auth.signOut(); }
+
+// ---- NAVIGATION ----
+var sections = ["dashboard", "modeles", "collaborations", "contacts", "campagnes", "personnalisation"];
+var titles = { dashboard: "Tableau de bord", modeles: "Candidatures Modèle", collaborations: "Collaborations", contacts: "Gestion des Contacts", campagnes: "Campagnes de Collaboration", personnalisation: "Personnalisation du site" };
+
+function showSection(id) {
+    sections.forEach(function (s) {
+        document.getElementById("section-" + s).classList.remove("active");
+        var nav = document.getElementById("nav-" + s);
+        if (nav) nav.classList.remove("active");
+    });
+    document.getElementById("section-" + id).classList.add("active");
+    var nav = document.getElementById("nav-" + id);
+    if (nav) nav.classList.add("active");
+    document.getElementById("topbarTitle").textContent = titles[id] || id;
+    if (id === "modeles")           loadModeles();
+    if (id === "collaborations")    loadCollaborations();
+    if (id === "contacts")          loadContacts();
+    if (id === "campagnes")         loadCampagnes();
+    if (id === "personnalisation")  loadSiteConfig();
+    if (window.innerWidth <= 768) closeSidebar();
+}
+
+// ---- SIDEBAR MOBILE ----
+function toggleSidebar() { var s = document.getElementById("sidebar"); var o = document.getElementById("sidebarOverlay"); var open = s.classList.toggle("open"); o.style.display = open ? "block" : "none"; }
+function closeSidebar() { document.getElementById("sidebar").classList.remove("open"); document.getElementById("sidebarOverlay").style.display = "none"; }
+
+// ---- DASHBOARD ----
+async function loadDashboard() {
+    try {
+        var [mSnap, cSnap, ctSnap, cpSnap] = await Promise.all([
+            db.collection("model_requests").get(),
+            db.collection("collaboration_requests").get(),
+            db.collection("contacts").get(),
+            db.collection("campagnes").get()
+        ]);
+        var mNew = mSnap.docs.filter(function (d) { return d.data().status === "new"; }).length;
+        var cNew = cSnap.docs.filter(function (d) { return d.data().status === "new"; }).length;
+        setEl("statModeles", mSnap.size);
+        setEl("statCollabs", cSnap.size);
+        setEl("statContacts", ctSnap.size);
+        setEl("statCampagnes", cpSnap.size);
+        setEl("statNew", mNew + cNew);
+        setBadge("badgeModele", mNew);
+        setBadge("badgeCollab", cNew);
+    } catch (e) { console.error("loadDashboard:", e); }
+    loadRecentModeles();
+    loadRecentCollabs();
+}
+
+function setBadge(id, count) { var el = document.getElementById(id); if (!el) return; if (count > 0) { el.textContent = count; el.classList.remove("d-none"); } else { el.classList.add("d-none"); } }
+
+async function loadRecentModeles() {
+    var container = document.getElementById("recentModeles");
+    try {
+        var snap = await db.collection("model_requests").orderBy("timestamp", "desc").limit(5).get();
+        if (snap.empty) { container.innerHTML = '<div class="empty-state"><i class="bi bi-inbox"></i>Aucune candidature</div>'; return; }
+        var html = '<table class="table mb-0" style="color:#ccc;"><tbody>';
+        snap.forEach(function (doc) { var d = doc.data(); html += '<tr><td class="ps-4">' + esc(d.nom) + '</td><td class="text-muted small">' + fmtDate(d.timestamp) + '</td><td>' + statusBadge(d.status) + '</td></tr>'; });
+        container.innerHTML = html + '</tbody></table>';
+    } catch (e) { container.innerHTML = '<div class="empty-state"><i class="bi bi-exclamation-triangle"></i>Erreur</div>'; }
+}
+
+async function loadRecentCollabs() {
+    var container = document.getElementById("recentCollabs");
+    try {
+        var snap = await db.collection("collaboration_requests").orderBy("timestamp", "desc").limit(5).get();
+        if (snap.empty) { container.innerHTML = '<div class="empty-state"><i class="bi bi-inbox"></i>Aucune demande</div>'; return; }
+        var html = '<table class="table mb-0" style="color:#ccc;"><tbody>';
+        snap.forEach(function (doc) { var d = doc.data(); html += '<tr><td class="ps-4">' + esc(d.nom) + '</td><td class="text-muted small">' + fmtDate(d.timestamp) + '</td><td>' + statusBadge(d.status) + '</td></tr>'; });
+        container.innerHTML = html + '</tbody></table>';
+    } catch (e) { container.innerHTML = '<div class="empty-state"><i class="bi bi-exclamation-triangle"></i>Erreur</div>'; }
+}
+
+// ---- MODÈLES ----
+async function loadModeles() {
+    var tbody = document.getElementById("modelesBody");
+    tbody.innerHTML = '<tr class="loading-row"><td colspan="8">Chargement...</td></tr>';
+    try {
+        var snap = await db.collection("model_requests").orderBy("timestamp", "desc").get();
+        _modeles = snap.docs.map(function (d) { return Object.assign({ id: d.id }, d.data()); });
+        renderModeles();
+    } catch (e) { tbody.innerHTML = '<tr class="loading-row"><td colspan="8">' + esc(e.message) + '</td></tr>'; }
+}
+function renderModeles() {
+    var tbody = document.getElementById("modelesBody");
+    var data = _mFilter === "all" ? _modeles : _modeles.filter(function (d) { return d.status === _mFilter; });
+    if (!data.length) { tbody.innerHTML = '<tr><td colspan="8"><div class="empty-state"><i class="bi bi-inbox"></i>Aucune candidature</div></td></tr>'; return; }
+    tbody.innerHTML = data.map(function (d) {
+        return '<tr><td><strong>' + esc(d.nom) + '</strong><br><span class="text-muted" style="font-size:11px;">' + esc(d.email) + '</span></td>' +
+            '<td>' + esc(d.telephone) + '</td><td>' + esc(d.age) + '</td><td>' + esc(d.ville) + '</td><td>' + esc(d.experience) + '</td>' +
+            '<td class="text-muted small">' + fmtDate(d.timestamp) + '</td><td>' + statusBadge(d.status) + '</td>' +
+            '<td><button class="btn btn-sm" onclick="openDetail(\'modele\',\'' + d.id + '\',\'model_requests\')" style="background:var(--primary-faint);border:1px solid rgba(198,121,58,0.3);color:var(--primary);border-radius:6px;"><i class="bi bi-eye"></i></button></td></tr>';
+    }).join("");
+}
+function filterModeles(f) { _mFilter = f; document.querySelectorAll("[id^=chipModele]").forEach(function(e){e.classList.remove("active")}); var el = document.getElementById("chipModele" + f.charAt(0).toUpperCase() + f.slice(1)); if(el) el.classList.add("active"); renderModeles(); }
+
+// ---- COLLABORATIONS ----
+async function loadCollaborations() {
+    var tbody = document.getElementById("collabsBody");
+    tbody.innerHTML = '<tr class="loading-row"><td colspan="7">Chargement...</td></tr>';
+    try {
+        var snap = await db.collection("collaboration_requests").orderBy("timestamp", "desc").get();
+        _collabs = snap.docs.map(function (d) { return Object.assign({ id: d.id }, d.data()); });
+        renderCollabs();
+    } catch (e) { tbody.innerHTML = '<tr class="loading-row"><td colspan="7">' + esc(e.message) + '</td></tr>'; }
+}
+function renderCollabs() {
+    var tbody = document.getElementById("collabsBody");
+    var data = _cFilter === "all" ? _collabs : _collabs.filter(function (d) { return d.status === _cFilter; });
+    if (!data.length) { tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state"><i class="bi bi-inbox"></i>Aucune demande</div></td></tr>'; return; }
+    tbody.innerHTML = data.map(function (d) {
+        return '<tr><td><strong>' + esc(d.nom) + '</strong><br><span class="text-muted" style="font-size:11px;">' + esc(d.email) + '</span></td>' +
+            '<td>' + esc(d.entreprise) + '</td><td>' + esc(d.telephone) + '</td><td>' + esc(d.type_collaboration) + '</td>' +
+            '<td class="text-muted small">' + fmtDate(d.timestamp) + '</td><td>' + statusBadge(d.status) + '</td>' +
+            '<td><button class="btn btn-sm" onclick="openDetail(\'collab\',\'' + d.id + '\',\'collaboration_requests\')" style="background:rgba(13,110,253,0.1);border:1px solid rgba(13,110,253,0.3);color:#4d94ff;border-radius:6px;"><i class="bi bi-eye"></i></button></td></tr>';
+    }).join("");
+}
+function filterCollabs(f) { _cFilter = f; document.querySelectorAll("[id^=chipCollab]").forEach(function(e){e.classList.remove("active")}); var el = document.getElementById("chipCollab" + f.charAt(0).toUpperCase() + f.slice(1)); if(el) el.classList.add("active"); renderCollabs(); }
+
+// ============================================================
+// CONTACTS — Ajout & Gestion par l'admin
+// ============================================================
+async function addContact(e) {
+    e.preventDefault();
+    var btn = document.getElementById("addContactBtn");
+    btn.disabled = true; btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Ajout...';
+    try {
+        await db.collection("contacts").add({
+            nom:        document.getElementById("ct_nom").value.trim(),
+            telephone:  document.getElementById("ct_telephone").value.trim(),
+            email:      document.getElementById("ct_email").value.trim() || null,
+            adresse:    document.getElementById("ct_adresse").value.trim() || null,
+            categorie:  document.getElementById("ct_categorie").value,
+            notes:      document.getElementById("ct_notes").value.trim() || null,
+            timestamp:  firebase.firestore.FieldValue.serverTimestamp()
+        });
+        document.getElementById("addContactForm").reset();
+        toast("Contact ajouté avec succès !");
+        loadContacts();
+        loadDashboard();
+    } catch (err) { toast("Erreur : " + err.message, true); }
+    btn.disabled = false; btn.innerHTML = '<i class="bi bi-plus-lg me-2"></i>Ajouter le contact';
+}
+
+async function loadContacts() {
+    var tbody = document.getElementById("contactsBody");
+    tbody.innerHTML = '<tr class="loading-row"><td colspan="7">Chargement...</td></tr>';
+    try {
+        var snap = await db.collection("contacts").orderBy("timestamp", "desc").get();
+        _contacts = snap.docs.map(function (d) { return Object.assign({ id: d.id }, d.data()); });
+        setEl("contactsCount", _contacts.length);
+        if (!_contacts.length) { tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state"><i class="bi bi-person-plus"></i>Aucun contact ajouté</div></td></tr>'; return; }
+        tbody.innerHTML = _contacts.map(function (d) {
+            return '<tr><td><strong>' + esc(d.nom) + '</strong></td><td>' + esc(d.telephone) + '</td><td class="text-muted">' + esc(d.email) + '</td>' +
+                '<td><span class="status-new">' + esc(d.categorie) + '</span></td><td>' + esc(d.adresse) + '</td>' +
+                '<td class="text-muted small">' + fmtDate(d.timestamp) + '</td>' +
+                '<td><button class="btn btn-sm" onclick="openDetail(\'contact\',\'' + d.id + '\',\'contacts\')" style="background:rgba(25,135,84,0.1);border:1px solid rgba(25,135,84,0.3);color:#25a565;border-radius:6px;"><i class="bi bi-eye"></i></button></td></tr>';
+        }).join("");
+    } catch (e) { tbody.innerHTML = '<tr class="loading-row"><td colspan="7">' + esc(e.message) + '</td></tr>'; }
+}
+
+// ============================================================
+// CAMPAGNES — Ajout & Gestion par l'admin
+// ============================================================
+async function addCampagne(e) {
+    e.preventDefault();
+    var btn = document.getElementById("addCampagneBtn");
+    btn.disabled = true; btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Ajout...';
+    try {
+        await db.collection("campagnes").add({
+            nom:            document.getElementById("cp_nom").value.trim(),
+            entreprise:     document.getElementById("cp_entreprise").value.trim(),
+            telephone:      document.getElementById("cp_telephone").value.trim(),
+            email:          document.getElementById("cp_email").value.trim() || null,
+            type:           document.getElementById("cp_type").value,
+            statut:         document.getElementById("cp_statut").value,
+            date_campagne:  document.getElementById("cp_date").value || null,
+            budget:         document.getElementById("cp_budget").value.trim() || null,
+            description:    document.getElementById("cp_description").value.trim() || null,
+            timestamp:      firebase.firestore.FieldValue.serverTimestamp()
+        });
+        document.getElementById("addCampagneForm").reset();
+        toast("Campagne ajoutée avec succès !");
+        loadCampagnes();
+        loadDashboard();
+    } catch (err) { toast("Erreur : " + err.message, true); }
+    btn.disabled = false; btn.innerHTML = '<i class="bi bi-plus-lg me-2"></i>Ajouter la campagne';
+}
+
+async function loadCampagnes() {
+    var tbody = document.getElementById("campagnesBody");
+    tbody.innerHTML = '<tr class="loading-row"><td colspan="7">Chargement...</td></tr>';
+    try {
+        var snap = await db.collection("campagnes").orderBy("timestamp", "desc").get();
+        _campagnes = snap.docs.map(function (d) { return Object.assign({ id: d.id }, d.data()); });
+        setEl("campagnesCount", _campagnes.length);
+        if (!_campagnes.length) { tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state"><i class="bi bi-megaphone"></i>Aucune campagne ajoutée</div></td></tr>'; return; }
+        tbody.innerHTML = _campagnes.map(function (d) {
+            var statColor = d.statut === "En cours" ? "#25a565" : d.statut === "Terminée" ? "#666" : d.statut === "Annulée" ? "#dc3545" : "#4d94ff";
+            return '<tr><td><strong>' + esc(d.nom) + '</strong></td><td>' + esc(d.entreprise) + '</td><td>' + esc(d.telephone) + '</td>' +
+                '<td>' + esc(d.type) + '</td><td class="text-muted small">' + (d.date_campagne || fmtDate(d.timestamp)) + '</td>' +
+                '<td><span style="background:rgba(0,0,0,0.2);border:1px solid ' + statColor + ';color:' + statColor + ';font-size:11px;font-weight:600;padding:2px 10px;border-radius:20px;">' + esc(d.statut) + '</span></td>' +
+                '<td><button class="btn btn-sm" onclick="openDetail(\'campagne\',\'' + d.id + '\',\'campagnes\')" style="background:rgba(156,39,176,0.1);border:1px solid rgba(156,39,176,0.3);color:#ba68c8;border-radius:6px;"><i class="bi bi-eye"></i></button></td></tr>';
+        }).join("");
+    } catch (e) { tbody.innerHTML = '<tr class="loading-row"><td colspan="7">' + esc(e.message) + '</td></tr>'; }
+}
+
+// ---- DÉTAIL MODAL (universel) ----
+function openDetail(type, id, collection) {
+    _detailType = type; _detailId = id; _detailCollection = collection;
+    var data;
+    if (type === "modele") data = _modeles.find(function (d) { return d.id === id; });
+    else if (type === "collab") data = _collabs.find(function (d) { return d.id === id; });
+    else if (type === "contact") data = _contacts.find(function (d) { return d.id === id; });
+    else if (type === "campagne") data = _campagnes.find(function (d) { return d.id === id; });
+    if (!data) return;
+
+    var titleMap = { modele: "Candidature Modèle", collab: "Demande de Collaboration", contact: "Fiche Contact", campagne: "Détail Campagne" };
+    document.getElementById("detailTitle").textContent = titleMap[type] || "Détail";
+
+    var rows = "";
+    if (type === "modele") {
+        rows += row("Nom", data.nom) + row("Email", data.email) + row("Téléphone", data.telephone) + row("Âge", data.age ? data.age + " ans" : null) + row("Taille", data.taille ? data.taille + " cm" : null) + row("Ville", data.ville) + row("Expérience", data.experience) + row("Instagram", data.instagram) + row("Source", data.source) + row("Date", fmtDate(data.timestamp, true)) + row("Statut", statusBadge(data.status));
+        rows += '<div class="mt-3"><div class="text-muted small mb-1">Motivation</div><div class="detail-textarea">' + esc(data.motivation) + '</div></div>';
+    } else if (type === "collab") {
+        rows += row("Nom", data.nom) + row("Entreprise", data.entreprise) + row("Email", data.email) + row("Téléphone", data.telephone) + row("Type", data.type_collaboration) + row("Budget", data.budget) + row("Date souhaitée", data.date_souhaitee) + row("Source", data.source) + row("Date", fmtDate(data.timestamp, true)) + row("Statut", statusBadge(data.status));
+        rows += '<div class="mt-3"><div class="text-muted small mb-1">Description</div><div class="detail-textarea">' + esc(data.description) + '</div></div>';
+    } else if (type === "contact") {
+        rows += row("Nom", data.nom) + row("Téléphone", data.telephone) + row("Email", data.email) + row("Adresse", data.adresse) + row("Catégorie", data.categorie) + row("Notes", data.notes) + row("Ajouté le", fmtDate(data.timestamp, true));
+    } else if (type === "campagne") {
+        rows += row("Nom du contact", data.nom) + row("Entreprise", data.entreprise) + row("Téléphone", data.telephone) + row("Email", data.email) + row("Type", data.type) + row("Statut", data.statut) + row("Date", data.date_campagne) + row("Budget", data.budget) + row("Ajouté le", fmtDate(data.timestamp, true));
+        if (data.description) rows += '<div class="mt-3"><div class="text-muted small mb-1">Description</div><div class="detail-textarea">' + esc(data.description) + '</div></div>';
+    }
+
+    document.getElementById("detailBody").innerHTML = rows;
+    document.getElementById("detailMarkViewedBtn").style.display = (data.status === "new") ? "inline-block" : "none";
+    new bootstrap.Modal(document.getElementById("detailModal")).show();
+    if (data.status === "new") markAsViewed(type, id, collection, false);
+}
+
+function row(lbl, val) { return '<div class="detail-pair"><span class="lbl">' + lbl + '</span><span class="val">' + (val ? String(val) : '<span class="text-muted">—</span>') + '</span></div>'; }
+
+document.getElementById("detailMarkViewedBtn").addEventListener("click", function () {
+    if (_detailType && _detailId && _detailCollection) { markAsViewed(_detailType, _detailId, _detailCollection, true); this.style.display = "none"; }
+});
+
+document.getElementById("detailDeleteBtn").addEventListener("click", async function () {
+    if (!_detailType || !_detailId || !_detailCollection) return;
+    if (!confirm("Supprimer cette entrée ?")) return;
+    try {
+        await db.collection(_detailCollection).doc(_detailId).delete();
+        // Remove from local array
+        if (_detailType === "modele") { _modeles = _modeles.filter(function(d){return d.id!==_detailId;}); renderModeles(); }
+        else if (_detailType === "collab") { _collabs = _collabs.filter(function(d){return d.id!==_detailId;}); renderCollabs(); }
+        else if (_detailType === "contact") loadContacts();
+        else if (_detailType === "campagne") loadCampagnes();
+        bootstrap.Modal.getInstance(document.getElementById("detailModal")).hide();
+        loadDashboard();
+        toast("Supprimé avec succès.");
+    } catch (e) { toast("Erreur : " + e.message, true); }
+});
+
+async function markAsViewed(type, id, collection, showMsg) {
+    try {
+        await db.collection(collection).doc(id).update({ status: "viewed" });
+        var arr = type === "modele" ? _modeles : _collabs;
+        var item = arr.find(function (d) { return d.id === id; });
+        if (item) item.status = "viewed";
+        if (type === "modele") renderModeles(); else if (type === "collab") renderCollabs();
+        loadDashboard();
+        if (showMsg) toast("Marquée comme vue.");
+    } catch (e) { console.error("markAsViewed:", e); }
+}
+
+// ---- UTILITAIRES ----
+function esc(str) { if (str == null) return "—"; return String(str).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+function fmtDate(ts, full) { if (!ts || !ts.toDate) return "—"; var d = ts.toDate(); return full ? d.toLocaleString("fr-FR") : d.toLocaleDateString("fr-FR"); }
+function statusBadge(s) { if (s === "new") return '<span class="status-new">Nouvelle</span>'; if (s === "viewed") return '<span class="status-viewed">Vue</span>'; if (s === "archived") return '<span class="status-archived">Archivée</span>'; return '<span class="status-viewed">' + esc(s) + '</span>'; }
+function setEl(id, val) { var el = document.getElementById(id); if (el) el.textContent = val; }
+function toast(msg, isErr) { var el = document.getElementById("appToast"); var m = document.getElementById("toastMsg"); var i = el.querySelector(".bi"); m.textContent = msg; i.className = "bi " + (isErr ? "bi-exclamation-triangle-fill text-danger" : "bi-check-circle-fill text-success"); new bootstrap.Toast(el, {delay:3000}).show(); }
+
+// ============================================================
+// PERSONNALISATION DU SITE — COMPLÈTE
+// ============================================================
+var storage = firebase.storage();
+
+function previewImg(input, prevId) {
+    var f = input.files[0]; if (!f) return;
+    var r = new FileReader();
+    r.onload = function(e) { document.getElementById(prevId).src = e.target.result; };
+    r.readAsDataURL(f);
+}
+
+async function uploadImg(file, name) {
+    var ref = storage.ref().child("site-images/" + name + "_" + Date.now());
+    var snap = await ref.put(file);
+    return await snap.ref.getDownloadURL();
+}
+
+async function loadSiteConfig() {
+    try {
+        var doc = await db.collection("site_config").doc("main").get();
+        if (!doc.exists) return;
+        var c = doc.data();
+        // Load all text/textarea fields
+        document.querySelectorAll(".cfg-text").forEach(function(el) {
+            var key = el.dataset.key;
+            if (c[key]) el.value = c[key];
+        });
+        // Load all toggle fields
+        document.querySelectorAll(".cfg-toggle").forEach(function(el) {
+            var key = el.dataset.key;
+            if (c[key] !== undefined) el.checked = c[key];
+        });
+        // Load image previews
+        document.querySelectorAll("[id^='prev_']").forEach(function(el) {
+            var key = el.id.replace("prev_", "");
+            if (c[key]) el.src = c[key];
+        });
+    } catch (e) { console.error("loadSiteConfig:", e); }
+}
+
+async function saveConfig() {
+    var btn = document.getElementById("saveConfigBtn");
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Enregistrement...';
+
+    try {
+        var config = { updated_at: firebase.firestore.FieldValue.serverTimestamp() };
+
+        // Collect all text/textarea fields
+        document.querySelectorAll(".cfg-text").forEach(function(el) {
+            config[el.dataset.key] = el.value.trim() || null;
+        });
+
+        // Collect all toggles
+        document.querySelectorAll(".cfg-toggle").forEach(function(el) {
+            config[el.dataset.key] = el.checked;
+        });
+
+        // Upload all selected image files
+        var fileInputs = document.querySelectorAll("[id^='file_']");
+        for (var i = 0; i < fileInputs.length; i++) {
+            var input = fileInputs[i];
+            var file = input.files[0];
+            if (file) {
+                var key = input.id.replace("file_", "");
+                config[key] = await uploadImg(file, key);
+            }
+        }
+
+        await db.collection("site_config").doc("main").set(config, { merge: true });
+        toast("Personnalisation enregistrée ! Visible immédiatement sur le site.");
+    } catch (err) {
+        toast("Erreur : " + err.message, true);
+    }
+
+    btn.disabled = false;
+    btn.innerHTML = '<i class="bi bi-check-lg me-2"></i>Enregistrer tout';
+}
+</script>
+</body>
+</html>
