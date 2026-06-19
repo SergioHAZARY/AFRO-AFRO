@@ -1210,3 +1210,89 @@ p {
         max-width: 184px;
     }
 }
+
+/* ===== Phone nav: ONE horizontal row of large icons (no grid/wrap) ===== */
+@media (max-width: 991.98px) {
+    .navbar .nav-icons {
+        flex-wrap: nowrap !important;
+        max-width: none !important;
+        gap: 0 !important;
+        row-gap: 0 !important;
+        padding: 5px;
+    }
+    .navbar .nav-icon {
+        padding: 9px 11px;
+        margin: 0 1px;
+    }
+    .navbar .nav-icon i {
+        font-size: 31px;
+    }
+    .navbar #adminLoginBtn {
+        width: 54px;
+        height: 54px;
+        font-size: 30px !important;
+        margin-left: 4px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .navbar .nav-icon {
+        padding: 7px 7px;
+    }
+    .navbar .nav-icon i {
+        font-size: 29px;
+    }
+    .navbar #adminLoginBtn {
+        width: 48px;
+        height: 48px;
+        font-size: 27px !important;
+        margin-left: 3px;
+    }
+}
+
+@media (max-width: 360px) {
+    .navbar .nav-icon {
+        padding: 6px 5px;
+    }
+    .navbar .nav-icon i {
+        font-size: 25px;
+    }
+    .navbar #adminLoginBtn {
+        width: 42px;
+        height: 42px;
+        font-size: 23px !important;
+    }
+}
+
+/* very narrow phones (<=340px): slightly smaller so the single row never clips */
+@media (max-width: 340px) {
+    .navbar .nav-icon {
+        padding: 5px 4px;
+    }
+    .navbar .nav-icon i {
+        font-size: 22px;
+    }
+    .navbar #adminLoginBtn {
+        width: 38px;
+        height: 38px;
+        font-size: 21px !important;
+    }
+}
+
+/* Ensure the nav pill is truly centered on its own row (override ms-auto) */
+@media (max-width: 991.98px) {
+    .navbar .nav-icons.ms-auto {
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+}
+
+/* Definitive mobile centering: kill ms-auto/me-4 margins, center via the row */
+@media (max-width: 991.98px) {
+    .navbar.navbar-expand-lg.navbar-dark {
+        justify-content: center !important;
+    }
+    .navbar .nav-icons.ms-auto.me-4 {
+        margin: 0 !important;
+    }
+}
